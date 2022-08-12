@@ -1,20 +1,30 @@
 import 'dart:convert';
-
-import 'package:archive/archive.dart';
+import 'dart:io';
 
 class GZipHelper {
-  String? encode(String? json) {
+  static List<int>? encodeBytes(String? json) {
     if (json == null) return null;
     final bytes = utf8.encode(json);
-    final gzipBytes = GZipEncoder().encode(bytes);
-    if (gzipBytes == null) return null;
-    return base64.encode(gzipBytes);
+    return GZipCodec().encode(bytes);
   }
 
-  String? decode(String? gzip) {
+  static String? decodeBytes(List<int>? gzip) {
     if (gzip == null) return null;
-    final bytes = base64.decode(gzip);
-    final gzipBytes = GZipDecoder().decodeBytes(bytes);
-    return utf8.decode(gzipBytes);
+    final decoded = GZipCodec().decode(gzip);
+    return utf8.decode(decoded);
   }
+
+  // static String? encode(String? json) {
+  //   final gzipBytes = encodeBytes(json);
+  //   if (gzipBytes == null) return null;
+  //   return base64.encode(gzipBytes);
+  // }
+
+  // static String? decode(String? gzip) {
+  //   if (gzip == null) return null;
+  //   final gzipBytes = base64.decode(gzip);
+  //   final bytes = decodeBytes(gzipBytes);
+  //   if (bytes == null) return null;
+  //   return utf8.decode(bytes);
+  // }
 }
