@@ -1,6 +1,7 @@
 import 'package:mqtt/model/storage_provider.dart';
 
 const String _replayFolderKey = 'replay_folder';
+const String _gameServerKey = 'game_server';
 
 class AppRepository {
   static final AppRepository instance = AppRepository._init();
@@ -15,4 +16,8 @@ class AppRepository {
   // Replay folder path
   String? get replayFolder => _storage.getString(_replayFolderKey);
   set replayFolder(String? value) => _storage.set(_replayFolderKey, value);
+
+  // Game server
+  String? get gameServer => _storage.getString(_gameServerKey);
+  set gameServer(String? value) => _storage.set(_gameServerKey, value);
 }

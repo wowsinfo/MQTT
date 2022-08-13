@@ -2,6 +2,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:mqtt/repository/app_repository.dart';
 import 'package:mqtt/ui/shared/alert.dart';
+import 'package:mqtt/ui/shared/dropdown_list_tile.dart';
 import 'package:mqtt/ui/shared/max_width_box.dart';
 
 void showSettingsPopup(BuildContext context) {
@@ -20,11 +21,13 @@ class _SettingsPopup extends StatefulWidget {
 
 class _SettingsPopupState extends State<_SettingsPopup> {
   String? _path;
+  String? _server;
 
   @override
   void initState() {
     super.initState();
     _path = AppRepository.instance.replayFolder;
+    _server = AppRepository.instance.gameServer;
   }
 
   @override
@@ -65,6 +68,38 @@ class _SettingsPopupState extends State<_SettingsPopup> {
                 });
               },
             ),
+            DropdownListTile<String?>(
+              options: const [
+                DropdownValue(
+                  value: null,
+                  title: 'Please select a server',
+                ),
+                DropdownValue(
+                  value: 'asia',
+                  title: 'Asia',
+                ),
+                DropdownValue(
+                  value: 'eu',
+                  title: 'Europe',
+                ),
+                DropdownValue(
+                  value: 'na',
+                  title: 'North America',
+                ),
+                DropdownValue(
+                  value: 'ru',
+                  title: 'Russia',
+                ),
+              ],
+              title: const Text('Game server'),
+              value: _server,
+              onChanged: (String? value) {
+                AppRepository.instance.gameServer = value;
+                setState(() {
+                  _server = value;
+                });
+              },
+            )
           ],
         ),
       ),
