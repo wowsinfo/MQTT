@@ -12,6 +12,7 @@ class WindowsProvider with ChangeNotifier {
   }
 
   bool get hasValidPath => AppRepository.instance.replayFolder != null;
+  bool get hasValidServer => AppRepository.instance.gameServer != null;
 
   bool _waiting = true;
   bool get isWaiting => _waiting;

@@ -31,10 +31,20 @@ class _WindowsPageState extends State<WindowsPage> {
   }
 
   Widget renderContent() {
-    if (_provider.hasValidPath) {
-      return const Text('Valid path');
-    } else {
-      return const Text('Invalid path');
+    if (!_provider.hasValidPath) {
+      return const Center(
+        child: Text('Please select a valid path'),
+      );
     }
+
+    if (!_provider.hasValidServer) {
+      return const Center(
+        child: Text('Please select a server'),
+      );
+    }
+
+    return const Center(
+      child: CircularProgressIndicator(),
+    );
   }
 }
