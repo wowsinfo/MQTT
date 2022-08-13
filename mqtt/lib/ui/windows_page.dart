@@ -20,7 +20,7 @@ class _WindowsPageState extends State<WindowsPage> {
         appBar: AppBar(
           title: const Text('MQTT Demo'),
         ),
-        body: Column(),
+        body: renderContent(),
         floatingActionButton: FloatingActionButton(
           onPressed: () => _provider.showSettings(context),
           child: const Icon(Icons.settings),
@@ -28,5 +28,13 @@ class _WindowsPageState extends State<WindowsPage> {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       ),
     );
+  }
+
+  Widget renderContent() {
+    if (_provider.hasValidPath) {
+      return const Text('Valid path');
+    } else {
+      return const Text('Invalid path');
+    }
   }
 }
