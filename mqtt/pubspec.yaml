@@ -46,6 +46,7 @@ dependencies:
   mobile_scanner: ^2.0.0
   crypto: ^3.0.2
   uuid: 3.0.6
+  url_launcher: ^6.1.5
 
 dev_dependencies:
   flutter_test:

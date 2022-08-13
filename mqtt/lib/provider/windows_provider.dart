@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mqtt/foundation/mqtt_client.dart';
 import 'package:mqtt/repository/app_repository.dart';
 import 'package:mqtt/ui/shared/settings_popup.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 /// The publisher side
 class WindowsProvider with ChangeNotifier {
@@ -22,5 +22,9 @@ class WindowsProvider with ChangeNotifier {
 
   void showSettings(BuildContext context) {
     showSettingsPopup(context);
+  }
+
+  void showReplayFolder() {
+    launchUrlString('file://C:\\Intel');
   }
 }
