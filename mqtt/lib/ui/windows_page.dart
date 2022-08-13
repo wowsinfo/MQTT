@@ -56,8 +56,18 @@ class _WindowsPageState extends State<WindowsPage> {
       );
     }
 
-    return const Center(
-      child: CircularProgressIndicator(),
+    return Consumer<WindowsProvider>(
+      builder: (context, value, child) {
+        if (value.isWaiting) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+
+        return const Center(
+          child: Text('Hello World'),
+        );
+      },
     );
   }
 }

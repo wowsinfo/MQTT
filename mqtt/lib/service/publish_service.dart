@@ -11,12 +11,17 @@ class PublishService {
   PublishService({this.cycle = 10, required this.fileService});
 
   final int cycle;
-  final FileService fileService;
+  final FileService? fileService;
   WWSClient? _client;
   Timer? _timer;
 
   Future<void> _publishIfNeeded() async {
-    final success = await fileService.load(cycle: Duration(seconds: cycle));
+    if (fileService == null) {
+      stop();
+      return;
+    }
+
+    final success = await fileService?.load(cycle: Duration(seconds: cycle));
     if (success == null) {
       _logger.severe('critical error');
       return;
@@ -30,7 +35,7 @@ class PublishService {
     _logger.fine('Publishing');
     if (_client == null) {
       const uuid = Uuid();
-      final userId = fileService.userID;
+      final userId = fileService?.userID;
       if (userId == null) {
         _logger.severe('userID is null');
         return;
@@ -51,7 +56,7 @@ class PublishService {
       await _client?.pushServer(server);
     }
 
-    final gameInfo = fileService.json;
+    final gameInfo = fileService?.json;
     if (gameInfo == null) {
       _logger.severe('tempArena is invalid');
       return;
@@ -65,9 +70,11 @@ class PublishService {
     if (_timer != null) stop();
 
     // keep the service running per 10 seconds
+    _publishIfNeeded();
     _timer = Timer.periodic(Duration(seconds: cycle), (_) {
       _publishIfNeeded();
     });
+    _logger.info('Started the service');
   }
 
   void stop() async {
@@ -77,5 +84,6 @@ class PublishService {
     final success = await _client?.disconnect();
     assert(success == true, 'mqtt client failed to disconnect');
     _client = null;
+    _logger.info('Stopped the service');
   }
 }

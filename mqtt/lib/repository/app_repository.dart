@@ -13,7 +13,7 @@ class AppRepository {
     _storage = storage;
   }
 
-  // Replay folder path
+  // Replay folder path as a stream
   String? get replayFolder => _storage.getString(_replayFolderKey);
   set replayFolder(String? value) => _storage.set(_replayFolderKey, value);
 
