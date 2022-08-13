@@ -1,6 +1,16 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:logging/logging.dart';
 
 void main() {
+  Logger.root.level = Level.ALL;
+  Logger.root.onRecord.listen((record) {
+    if (kDebugMode) {
+      final message = '${record.loggerName}: ${record.message}';
+      print('${record.level.name}|$message');
+    }
+  });
+
   runApp(const MyApp());
 }
 

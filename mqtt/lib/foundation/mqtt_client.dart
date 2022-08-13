@@ -1,3 +1,4 @@
+import 'package:logging/logging.dart';
 import 'package:mqtt/foundation/gzip.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
@@ -14,6 +15,7 @@ typedef MessageCallback = void Function(String);
 /// Push tempArenaInfo.json to the server with clientId as the topic.
 /// Subscribe to the topic to receive the encoded json string.
 class WWSClient {
+  final _logger = Logger('WWSClient');
   MqttClient? _client;
 
   WWSClient({
@@ -38,7 +40,7 @@ class WWSClient {
     try {
       await client.connect();
     } on Exception catch (e) {
-      print('EXCEPTION: $e');
+      _logger.severe('EXCEPTION: $e');
       client.disconnect();
       return false;
     }
@@ -57,7 +59,7 @@ class WWSClient {
     try {
       _client?.disconnect();
     } on Exception catch (e) {
-      print('EXCEPTION: $e');
+      _logger.severe('EXCEPTION: $e');
       return false;
     }
     return true;
