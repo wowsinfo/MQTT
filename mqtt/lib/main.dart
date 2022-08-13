@@ -30,6 +30,7 @@ class MyApp extends StatelessWidget {
       title: 'MQTT Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        useMaterial3: true,
       ),
       home: const HomePage(),
     );

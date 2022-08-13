@@ -18,14 +18,27 @@ class _WindowsPageState extends State<WindowsPage> {
       value: _provider,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('MQTT Demo'),
+          title: Row(children: [
+            const Text('MQTT Demo'),
+            const VerticalDivider(),
+            TextButton.icon(
+              onPressed: () => _provider.showReplayFolder(),
+              icon: const Icon(Icons.folder),
+              label: const Text('Replay'),
+            ),
+            TextButton.icon(
+              onPressed: () => _provider.showReplayFolder(),
+              icon: const Icon(Icons.refresh),
+              label: const Text('Reload'),
+            ),
+          ]),
         ),
         body: renderContent(),
         floatingActionButton: FloatingActionButton(
           onPressed: () => _provider.showSettings(context),
           child: const Icon(Icons.settings),
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       ),
     );
   }
