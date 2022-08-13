@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 abstract class StorageProvider {
   String? getString(String key);
   void set(String key, String? value);
+  bool hasKey(String key);
 }
 
 class PreferenceProvider implements StorageProvider {
@@ -23,5 +24,10 @@ class PreferenceProvider implements StorageProvider {
     } else {
       _prefs.setString(key, value);
     }
+  }
+
+  @override
+  bool hasKey(String key) {
+    return _prefs.containsKey(key);
   }
 }

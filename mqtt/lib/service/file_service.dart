@@ -1,8 +1,5 @@
-import 'dart:convert';
 import 'dart:io';
-import 'dart:math';
 
-import 'package:crypto/crypto.dart';
 import 'package:logging/logging.dart';
 
 /// Read tempArenaInfo.json from the give path.
@@ -13,9 +10,6 @@ class FileService {
 
   String? _json;
   String? get json => _json;
-
-  String? _userID;
-  String? get userID => _userID;
 
   DateTime? _lastModified;
 
@@ -46,16 +40,6 @@ class FileService {
       _logger.fine('Loaded json successfully');
       _json = json;
 
-      final jsonMap = jsonDecode(json);
-      final userID = jsonMap['playerName'] as String?;
-      if (userID == null) {
-        _logger.severe('userID is null');
-        return null;
-      }
-
-      // lowercase + 8 random characters => md5 hash
-      final generated = userID + Random().nextInt(1000000).toString();
-      _userID = md5.convert(utf8.encode(generated)).toString();
       return true;
     } on FileSystemException {
       _logger.info('File does not exist');

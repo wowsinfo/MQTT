@@ -6,4 +6,5 @@ class StorageService {
 
   String? getString(String key) => _provider.getString(key);
   void setString(String key, String? value) => _provider.set(key, value);
+  bool hasKey(String key) => _provider.hasKey(key);
 }

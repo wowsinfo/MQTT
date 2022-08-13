@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:mqtt/repository/app_repository.dart';
 import 'package:mqtt/ui/shared/alert.dart';
 import 'package:mqtt/ui/shared/dropdown_list_tile.dart';
-import 'package:mqtt/ui/shared/max_width_box.dart';
 
 void showSettingsPopup(BuildContext context) {
   showDialog(

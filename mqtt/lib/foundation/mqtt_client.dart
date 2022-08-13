@@ -6,7 +6,7 @@ import 'package:typed_data/typed_buffers.dart';
 
 const String _serverUrl = 'mq.wows.shinoaki.com';
 const int _tcpPort = 1883;
-const int _wsPort = 8083;
+// const int _wsPort = 8083;
 const String _account = 'wows-poll';
 const String _password = 'wows-poll';
 
