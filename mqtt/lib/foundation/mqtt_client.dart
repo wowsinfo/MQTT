@@ -1,4 +1,4 @@
-import 'package:mqtt/gzip.dart';
+import 'package:mqtt/foundation/gzip.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:typed_data/typed_buffers.dart';
@@ -8,6 +8,8 @@ const int _tcpPort = 1883;
 const int _wsPort = 8083;
 const String _account = 'wows-poll';
 const String _password = 'wows-poll';
+
+typedef MessageCallback = void Function(String);
 
 /// Push tempArenaInfo.json to the server with clientId as the topic.
 /// Subscribe to the topic to receive the encoded json string.
@@ -21,6 +23,8 @@ class WWSClient {
 
   final String clientID;
   final String userID;
+
+  bool _hasSubscribed = false;
 
   Future<bool> initialise() async {
     final client = MqttServerClient.withPort(_serverUrl, clientID, _tcpPort);
@@ -67,7 +71,12 @@ class WWSClient {
     }
   }
 
-  Future<bool> _subscribe(String topic) async {
+  Future<bool> _subscribe(String topic, MessageCallback callback) async {
+    if (_hasSubscribed) {
+      assert(false, 'Already subscribed, only one subscription is allowed');
+      return false;
+    }
+
     if (!await _checkConnection()) {
       return false;
     }
@@ -77,28 +86,27 @@ class WWSClient {
       return false;
     }
 
-    _client?.updates?.listen(_updateListener);
+    _client?.updates?.listen((List<MqttReceivedMessage<MqttMessage>> message) {
+      final MqttPublishMessage received =
+          message.first.payload as MqttPublishMessage;
+      final payload = received.payload.message;
+
+      final decoded = GZipHelper.decodeBytes(payload);
+      if (decoded == null) {
+        assert(false, 'The decoded stringis invalid');
+        return;
+      }
+
+      callback(decoded);
+    });
+
     _client?.subscribe(topic, MqttQos.exactlyOnce);
+    _hasSubscribed = true;
     return true;
   }
 
-  void _updateListener(List<MqttReceivedMessage<MqttMessage>> message) {
-    final MqttPublishMessage received =
-        message.first.payload as MqttPublishMessage;
-    final payload = received.payload.message;
-
-    print('Received: $payload');
-    final decoded = GZipHelper.decodeBytes(payload);
-    if (decoded == null) {
-      assert(false, 'The decoded stringis invalid');
-      return;
-    }
-
-    print('Decoded: $decoded');
-  }
-
-  Future<void> receiveBattleData() async {
-    await _subscribe('wows/client/poll/real/$userID');
+  Future<void> receiveBattleData(MessageCallback callback) async {
+    await _subscribe('wows/client/poll/real/$userID', callback);
   }
 
   Future<void> _publish(String topic, String value) async {

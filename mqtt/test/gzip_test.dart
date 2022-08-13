@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mqtt/gzip.dart';
+import 'package:mqtt/foundation/gzip.dart';
 
 void main() {
   test('Test gzip', () {

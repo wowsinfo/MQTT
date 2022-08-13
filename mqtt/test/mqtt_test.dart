@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mqtt/mqtt/mqtt_client.dart';
+import 'package:mqtt/foundation/mqtt_client.dart';
 
 import 'test_data_loader.dart';
 
@@ -10,9 +10,15 @@ void main() {
       userID: 'henryquan',
     );
     expect(await listener.initialise(), true);
-    await listener.receiveBattleData();
+    await listener.receiveBattleData((received) {
+      expect(received, isNotEmpty);
+      print('received: $received');
+    });
 
-    final client = WWSClient(clientID: 'henryquan.client', userID: 'henryquan');
+    final client = WWSClient(
+      clientID: 'henryquan.client',
+      userID: 'henryquan',
+    );
     final loader = TestDataLoader();
     final testData = await loader.loadTestJson();
 
@@ -28,6 +34,7 @@ void main() {
   test('Load json', () async {
     final loader = TestDataLoader();
     final testData = await loader.loadTestJson();
-    print(testData);
+    expect(testData, isNotNull);
+    expect(testData, isNotEmpty);
   });
 }
