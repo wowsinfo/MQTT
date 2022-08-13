@@ -77,7 +77,7 @@ class PublishService {
     _logger.info('Started the service');
   }
 
-  void stop() async {
+  Future<void> stop() async {
     _timer?.cancel();
     _timer = null;
 

@@ -19,17 +19,18 @@ class WindowsProvider with ChangeNotifier {
   bool get hasValidPath => AppRepository.instance.replayFolder != null;
   bool get hasValidServer => AppRepository.instance.gameServer != null;
 
-  bool _waiting = true;
-  bool get isWaiting => _waiting;
+  void _setup() async {
+    if (hasValidPath && hasValidServer) {
+      if (_publishService != null) {
+        await _publishService?.stop();
+        _publishService = null;
+      }
 
-  bool _working = false;
-  bool get isWorking => _working;
-
-  void _setup() {
-    _fileService = FileService(path: AppRepository.instance.replayFolder);
-    _publishService = PublishService(fileService: _fileService);
-    _logger.info('Setting up services');
-    _publishService?.start();
+      _fileService = FileService(path: AppRepository.instance.replayFolder);
+      _publishService = PublishService(fileService: _fileService);
+      _logger.info('Setting up services');
+      _publishService?.start();
+    }
   }
 
   void showSettings(BuildContext context) {
@@ -37,7 +38,9 @@ class WindowsProvider with ChangeNotifier {
   }
 
   void showReplayFolder() {
-    launchUrlString('file://C:\\Intel');
+    final folder = AppRepository.instance.replayFolder;
+    if (folder == null) return;
+    launchUrlString('file://$folder');
   }
 
   void reload() {

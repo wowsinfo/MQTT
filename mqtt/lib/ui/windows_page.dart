@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mqtt/provider/windows_provider.dart';
+import 'package:mqtt/ui/game_info_page.dart';
 import 'package:provider/provider.dart';
 
 class WindowsPage extends StatefulWidget {
@@ -56,18 +57,6 @@ class _WindowsPageState extends State<WindowsPage> {
       );
     }
 
-    return Consumer<WindowsProvider>(
-      builder: (context, value, child) {
-        if (value.isWaiting) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-
-        return const Center(
-          child: Text('Hello World'),
-        );
-      },
-    );
+    return const GameInfoPage();
   }
 }
