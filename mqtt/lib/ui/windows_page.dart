@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mqtt/provider/windows_provider.dart';
 import 'package:mqtt/ui/game_info_page.dart';
+import 'package:mqtt/ui/qr_scanner_page.dart';
 import 'package:provider/provider.dart';
 
 class WindowsPage extends StatefulWidget {
@@ -19,20 +20,33 @@ class _WindowsPageState extends State<WindowsPage> {
       value: _provider,
       child: Scaffold(
         appBar: AppBar(
-          title: Row(children: [
-            const Text('MQTT Demo'),
-            const VerticalDivider(),
-            TextButton.icon(
-              onPressed: () => _provider.showReplayFolder(),
-              icon: const Icon(Icons.folder),
-              label: const Text('Replay'),
-            ),
-            TextButton.icon(
-              onPressed: () => _provider.showReplayFolder(),
-              icon: const Icon(Icons.refresh),
-              label: const Text('Reload'),
-            ),
-          ]),
+          title: Row(
+            children: [
+              const Text('MQTT Demo'),
+              const VerticalDivider(),
+              TextButton.icon(
+                onPressed: () => _provider.showReplayFolder(),
+                icon: const Icon(Icons.folder),
+                label: const Text('Replay'),
+              ),
+              TextButton.icon(
+                onPressed: () => _provider.reload(),
+                icon: const Icon(Icons.refresh),
+                label: const Text('Reload'),
+              ),
+              TextButton.icon(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const QRScannerPage(),
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.qr_code),
+                label: const Text('Scan QR'),
+              ),
+            ],
+          ),
         ),
         body: renderContent(),
         floatingActionButton: FloatingActionButton(

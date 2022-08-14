@@ -41,4 +41,6 @@ class AppRepository {
     if (App.isMobile) _storage.set(_userUUIDKey, value);
     throw UnsupportedError('Don\'t set userUUID on desktop');
   }
+
+  bool get hasUserUUID => _storage.hasKey(_userUUIDKey);
 }
