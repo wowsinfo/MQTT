@@ -3,6 +3,9 @@ import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mqtt/model/game_map_info.dart';
 import 'package:mqtt/model/game_player_info.dart';
+import 'package:mqtt/model/temp_arena_info.dart';
+
+import 'test_data_loader.dart';
 
 void main() {
   test('test GamePlayerInfo equality', () {
@@ -53,5 +56,13 @@ void main() {
     final map3 =
         GameMapInfo.fromJson(jsonDecode(json2) as Map<String, dynamic>);
     expect(map1 == map3, false);
+  });
+
+  test('test loading tempArenaInfo.json', () async {
+    final loader = TestDataLoader();
+    final testData = await loader.loadTestJson();
+
+    final decoded = TempArenaInfo.fromJson(jsonDecode(testData));
+    expect(decoded.vehicles.isNotEmpty, isTrue);
   });
 }
