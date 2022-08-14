@@ -31,7 +31,7 @@ class QRScannerPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('QR Scanner')),
       body: const Center(
-        child: Text('This is not supported on desktop.'),
+        child: Text('Not supported on this device'),
       ),
     );
   }

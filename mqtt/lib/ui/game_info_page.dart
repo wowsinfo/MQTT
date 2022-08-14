@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mqtt/foundation/app.dart';
 import 'package:mqtt/provider/game_info_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -19,22 +20,35 @@ class _GameInfoPageState extends State<GameInfoPage> {
         value: _provider, child: renderContent());
   }
 
+  TextButton scanQRButton() {
+    return TextButton.icon(
+      onPressed: () => _provider.scanQRCode(context),
+      icon: const Icon(Icons.qr_code),
+      label: const Text('Scan QR'),
+    );
+  }
+
   Widget renderContent() {
     return Consumer<GameInfoProvider>(
       builder: (context, value, child) {
         if (!value.hasUserUUID) {
-          return Center(
-            child: TextButton.icon(
-              onPressed: () => _provider.scanQRCode(context),
-              icon: const Icon(Icons.qr_code),
-              label: const Text('Scan QR'),
-            ),
-          );
+          return Center(child: scanQRButton());
         }
 
         if (!value.hasData) {
-          return const Center(
-            child: CircularProgressIndicator(),
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const CircularProgressIndicator(),
+                // not required for windows
+                if (App.isMobile)
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: scanQRButton(),
+                  ),
+              ],
+            ),
           );
         }
 
@@ -47,7 +61,7 @@ class _GameInfoPageState extends State<GameInfoPage> {
     return Consumer<GameInfoProvider>(
       builder: (context, value, child) {
         return Column(
-          children: [],
+          children: const [],
         );
       },
     );
