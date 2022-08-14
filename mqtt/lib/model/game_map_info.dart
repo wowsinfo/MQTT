@@ -1,7 +1,8 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
 @immutable
-class GameMapInfo {
+class GameMapInfo extends Equatable {
   const GameMapInfo({
     this.matchGroup,
     this.mapId,
@@ -25,16 +26,6 @@ class GameMapInfo {
       );
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is GameMapInfo &&
-          runtimeType == other.runtimeType &&
-          matchGroup == other.matchGroup &&
-          mapId == other.mapId &&
-          userCount == other.userCount &&
-          gameType == other.gameType &&
-          dateTime == other.dateTime;
-
-  @override
-  int get hashCode => dateTime.hashCode;
+  // TODO: implement props
+  List<Object?> get props => [matchGroup, mapId, userCount, gameType, dateTime];
 }

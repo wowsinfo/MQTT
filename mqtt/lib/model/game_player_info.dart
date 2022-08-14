@@ -1,7 +1,8 @@
 import 'package:flutter/foundation.dart';
+import 'package:equatable/equatable.dart';
 
 @immutable
-class GamePlayerInfo {
+class GamePlayerInfo extends Equatable {
   const GamePlayerInfo({
     this.myTeam,
     this.hide,
@@ -34,16 +35,12 @@ class GamePlayerInfo {
       );
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is GamePlayerInfo && accountId == other.accountId;
-
-  @override
-  int get hashCode => accountId.hashCode;
+  List<Object?> get props =>
+      [myTeam, hide, accountId, userName, clanTag, clanColor, pvp, ship];
 }
 
 @immutable
-class Pvp {
+class Pvp extends Equatable {
   const Pvp({
     this.pr,
     this.battles,
@@ -74,4 +71,8 @@ class Pvp {
         hit: json['hit'],
         frags: json['frags'],
       );
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [pr, battles, wins, damage, xp, kd, hit, frags];
 }
