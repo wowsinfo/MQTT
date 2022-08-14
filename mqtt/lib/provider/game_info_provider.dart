@@ -7,4 +7,8 @@ class GameInfoProvider with ChangeNotifier {
   GameInfoProvider() {}
 
   bool get hasUserUUID => AppRepository.instance.hasUserUUID;
+
+  void scanQRCode() {
+    _logger.info('Scanning QR code');
+  }
 }

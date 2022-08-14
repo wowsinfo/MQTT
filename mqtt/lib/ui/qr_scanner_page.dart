@@ -12,14 +12,18 @@ class QRScannerPage extends StatelessWidget {
         appBar: AppBar(title: const Text('QR Scanner')),
         body: MobileScanner(
           allowDuplicates: false,
-          controller: MobileScannerController(
-            facing: CameraFacing.front,
-          ),
+          controller: MobileScannerController(),
           onDetect: (barcode, args) {
             if (barcode.rawValue == null) {
               debugPrint('Failed to scan Barcode');
             } else {
               final String code = barcode.rawValue!;
+              // show a snackbar with the scanned code
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(code),
+                ),
+              );
               debugPrint('Barcode found! $code');
             }
           },

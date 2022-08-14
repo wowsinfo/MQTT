@@ -6,6 +6,8 @@ import 'package:mqtt/repository/app_repository.dart';
 import 'package:mqtt/ui/home_page.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   Logger.root.level = Level.ALL;
   Logger.root.onRecord.listen((record) {
     if (kDebugMode) {

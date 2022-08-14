@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mqtt/foundation/app.dart';
+import 'package:mqtt/ui/mobile_page.dart';
 import 'package:mqtt/ui/windows_page.dart';
 
 class HomePage extends StatelessWidget {
@@ -8,6 +9,6 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (App.isWindows) return const WindowsPage();
-    return Container();
+    return const MobilePage();
   }
 }
