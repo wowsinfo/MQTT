@@ -8,7 +8,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MobilePage();
     if (App.isWindows) return const WindowsPage();
+    return const MobilePage();
   }
 }
