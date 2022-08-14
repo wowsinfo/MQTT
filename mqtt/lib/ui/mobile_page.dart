@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mqtt/ui/game_info_page.dart';
 import 'package:mqtt/ui/qr_scanner_page.dart';
 
 class MobilePage extends StatefulWidget {
@@ -15,19 +16,7 @@ class _MobilePageState extends State<MobilePage> {
       appBar: AppBar(
         title: Text('Mobile'),
       ),
-      body: Center(
-        child: TextButton.icon(
-          onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => const QRScannerPage(),
-              ),
-            );
-          },
-          icon: const Icon(Icons.qr_code),
-          label: const Text('Scan QR'),
-        ),
-      ),
+      body: const GameInfoPage(),
     );
   }
 }

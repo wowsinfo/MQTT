@@ -35,7 +35,7 @@ class PublishService {
     _logger.fine('Publishing');
     if (_client == null) {
       const uuid = Uuid();
-      final userId = AppRepository.instance.userUUID;
+      final userId = AppRepository.instance.userUUID!;
       final server = AppRepository.instance.gameServer;
       if (server == null) {
         _logger.severe('server is null');

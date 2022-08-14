@@ -14,6 +14,7 @@ class AppRepository {
   late final StorageProvider _storage;
   void inject(StorageProvider storage) {
     _storage = storage;
+    if (App.isWindows) _generateUserUUID();
   }
 
   // Replay folder path as a stream
@@ -25,22 +26,23 @@ class AppRepository {
   set gameServer(String? value) => _storage.set(_gameServerKey, value);
 
   // User UUID
-  String get userUUID {
+  String? get userUUID {
     final savedID = _storage.getString(_userUUIDKey);
-    if (savedID == null) {
-      // save this UUID to be used in the future
-      const uuid = Uuid();
-      final id = uuid.v4();
-      _storage.set(_userUUIDKey, id);
-      return id;
-    }
     return savedID;
   }
 
-  set userUUID(String value) {
+  set userUUID(String? value) {
     if (App.isMobile) _storage.set(_userUUIDKey, value);
     throw UnsupportedError('Don\'t set userUUID on desktop');
   }
 
   bool get hasUserUUID => _storage.hasKey(_userUUIDKey);
+  void _generateUserUUID() {
+    if (userUUID == null) {
+      // save this UUID to be used in the future
+      const uuid = Uuid();
+      final id = uuid.v4();
+      _storage.set(_userUUIDKey, id);
+    }
+  }
 }

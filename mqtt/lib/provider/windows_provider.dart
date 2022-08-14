@@ -11,7 +11,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 class WindowsProvider with ChangeNotifier {
   final _logger = Logger('WindowsProvider');
   WindowsProvider() {
-    _setup();
+    // _setup();
   }
 
   FileService? _fileService;
@@ -19,6 +19,14 @@ class WindowsProvider with ChangeNotifier {
 
   bool get hasValidPath => AppRepository.instance.replayFolder != null;
   bool get hasValidServer => AppRepository.instance.gameServer != null;
+
+  @override
+  void dispose() {
+    _fileService = null;
+    _publishService?.stop();
+    _publishService = null;
+    super.dispose();
+  }
 
   void _setup() async {
     if (hasValidPath && hasValidServer) {
@@ -50,7 +58,9 @@ class WindowsProvider with ChangeNotifier {
 
   void showQRCode(BuildContext context) {
     _logger.info(
-        'Showing QR code, userUUID: ${AppRepository.instance.userUUID}, length: ${AppRepository.instance.userUUID.length}');
+      'Showing QR code, userUUID: ${AppRepository.instance.userUUID}',
+    );
+
     showDialog(
         context: context,
         builder: (context) {
@@ -59,7 +69,7 @@ class WindowsProvider with ChangeNotifier {
             content: SizedBox(
               width: 200,
               child: QrImage(
-                data: AppRepository.instance.userUUID,
+                data: AppRepository.instance.userUUID!,
                 version: QrVersions.auto,
               ),
             ),
