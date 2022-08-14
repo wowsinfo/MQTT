@@ -12,7 +12,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 class WindowsProvider with ChangeNotifier {
   final _logger = Logger('WindowsProvider');
   WindowsProvider() {
-    // _setup();
+    _setup();
   }
 
   FileService? _fileService;

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:equatable/equatable.dart';
+import 'package:mqtt/extensions/number.dart';
 
 final testData1 = GamePlayerInfo.fromJson(jsonDecode(
     '{"myTeam":false,"hide":true,"accountId":-1,"userName":":Zavoyko:","clanTag":null,"clanColor":null,"pvp":null,"ship":null}'));
@@ -31,6 +32,14 @@ class GamePlayerInfo extends Equatable {
   final String? clanColor;
   final Pvp? pvp;
   final Pvp? ship;
+
+  String? get battleString => pvp?.battles?.toDecimalString();
+  String? get winString => pvp?.wins?.asPercentString();
+  String? get damageString => pvp?.damage?.toDecimalString();
+
+  String? get shipBattleString => ship?.battles?.toDecimalString();
+  String? get shipWinString => ship?.wins?.asPercentString();
+  String? get shipDamageString => ship?.damage?.toDecimalString();
 
   String? get formattedClanTag => clanTag == null ? null : '[$clanTag]';
 
@@ -85,6 +94,5 @@ class Pvp extends Equatable {
       );
 
   @override
-  // TODO: implement props
   List<Object?> get props => [pr, battles, wins, damage, xp, kd, hit, frags];
 }

@@ -93,9 +93,9 @@ class _GameInfoPageState extends State<GameInfoPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              iconWithText(battleIcon, '${player.ship?.battles}'),
-              iconWithText(winrateIcon, '${player.ship?.wins}'),
-              iconWithText(damageIcon, '${player.ship?.damage}'),
+              iconWithText(battleIcon, '${player.shipBattleString}'),
+              iconWithText(winrateIcon, '${player.shipWinString}'),
+              iconWithText(damageIcon, '${player.shipDamageString}'),
             ],
           )
         ],

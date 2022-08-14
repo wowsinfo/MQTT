@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:mqtt/localisation/localisation.dart';
 import 'package:mqtt/provider/windows_provider.dart';
 import 'package:mqtt/ui/game_info_page.dart';
-import 'package:mqtt/ui/qr_scanner_page.dart';
 import 'package:provider/provider.dart';
 
 class WindowsPage extends StatefulWidget {

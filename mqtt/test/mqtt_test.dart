@@ -37,6 +37,8 @@ void main() {
     expect(await client.pushBattleInfo(testData), true);
     // delay 20s for response
     await Future.delayed(const Duration(seconds: 20));
+    expect(counter, greaterThan(0));
+    expect(manager.hasData, true);
     expect(await client.disconnect(), true);
     expect(await listener.disconnect(), true);
   });

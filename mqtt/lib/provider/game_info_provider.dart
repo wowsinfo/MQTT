@@ -1,10 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:mqtt/localisation/localisation.dart';
 import 'package:mqtt/model/game_data_manager.dart';
-import 'package:mqtt/model/game_map_info.dart';
 import 'package:mqtt/model/game_player_info.dart';
 import 'package:mqtt/repository/app_repository.dart';
 import 'package:mqtt/service/subscribe_service.dart';
@@ -17,8 +14,8 @@ class GameInfoProvider with ChangeNotifier {
   GameInfoProvider() {
     if (hasUserUUID) {
       _logger.fine('has user uuid');
-      _test();
-      // _subscribe();
+      // _test();
+      _subscribe();
     }
   }
 
@@ -80,6 +77,7 @@ class GameInfoProvider with ChangeNotifier {
 
   void _onMessage(String message) {
     final success = _dataManager.update(message);
+    print('updated data: $success');
     if (success) notifyListeners();
   }
 }

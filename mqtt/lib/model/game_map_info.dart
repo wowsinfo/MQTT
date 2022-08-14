@@ -26,6 +26,5 @@ class GameMapInfo extends Equatable {
       );
 
   @override
-  // TODO: implement props
   List<Object?> get props => [matchGroup, mapId, userCount, gameType, dateTime];
 }
