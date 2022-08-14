@@ -23,4 +23,18 @@ class GameMapInfo {
         gameType: json['gameType'],
         dateTime: json['dateTime'],
       );
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is GameMapInfo &&
+          runtimeType == other.runtimeType &&
+          matchGroup == other.matchGroup &&
+          mapId == other.mapId &&
+          userCount == other.userCount &&
+          gameType == other.gameType &&
+          dateTime == other.dateTime;
+
+  @override
+  int get hashCode => dateTime.hashCode;
 }

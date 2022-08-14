@@ -32,6 +32,14 @@ class GamePlayerInfo {
         pvp: json['pvp'] == null ? null : Pvp.fromJson(json['pvp']),
         ship: json['ship'] == null ? null : Pvp.fromJson(json['ship']),
       );
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is GamePlayerInfo && accountId == other.accountId;
+
+  @override
+  int get hashCode => accountId.hashCode;
 }
 
 @immutable
