@@ -12,7 +12,7 @@ void showSimpleAlert(
       title: Text(title),
       content: Text(message),
       actions: <Widget>[
-        ElevatedButton(
+        TextButton(
           child: Text(Localisation.of(context).close),
           onPressed: () => Navigator.of(context).pop(),
         ),
@@ -31,7 +31,7 @@ void showErrorAlert(
       title: Text(Localisation.of(context).error),
       content: Text(message),
       actions: <Widget>[
-        ElevatedButton(
+        TextButton(
           child: Text(Localisation.of(context).close),
           onPressed: () => Navigator.of(context).pop(),
         ),

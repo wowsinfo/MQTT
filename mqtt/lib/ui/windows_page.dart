@@ -33,12 +33,15 @@ class _WindowsPageState extends State<WindowsPage> {
                   label: Text(Localisation.of(context).replay),
                 ),
               ),
-              Tooltip(
-                message: Localisation.of(context).tooltip_reload,
-                child: TextButton.icon(
-                  onPressed: () => _provider.reload(),
-                  icon: const Icon(Icons.refresh),
-                  label: Text(Localisation.of(context).reload),
+              Consumer<WindowsProvider>(
+                builder: (context, value, child) => Tooltip(
+                  message: Localisation.of(context).tooltip_reload,
+                  child: TextButton.icon(
+                    onPressed:
+                        value.canReload ? () => _provider.reload() : null,
+                    icon: const Icon(Icons.refresh),
+                    label: Text(Localisation.of(context).reload),
+                  ),
                 ),
               ),
               Tooltip(
@@ -66,18 +69,28 @@ class _WindowsPageState extends State<WindowsPage> {
   }
 
   Widget renderContent() {
-    if (!_provider.hasValidPath) {
-      return Center(
-        child: Text(Localisation.of(context).error_invalid_replay_path),
-      );
-    }
+    return Consumer<WindowsProvider>(
+      builder: (context, value, child) {
+        if (!value.hasValidPath) {
+          return Center(
+            child: ElevatedButton(
+              child: Text(Localisation.of(context).error_invalid_replay_path),
+              onPressed: () => _provider.showSettings(context),
+            ),
+          );
+        }
 
-    if (!_provider.hasValidServer) {
-      return Center(
-        child: Text(Localisation.of(context).error_invalid_server),
-      );
-    }
+        if (!value.hasValidServer) {
+          return Center(
+            child: ElevatedButton(
+              child: Text(Localisation.of(context).error_invalid_server),
+              onPressed: () => _provider.showSettings(context),
+            ),
+          );
+        }
 
-    return const GameInfoPage();
+        return const GameInfoPage();
+      },
+    );
   }
 }

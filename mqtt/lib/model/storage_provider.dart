@@ -4,6 +4,7 @@ abstract class StorageProvider {
   String? getString(String key);
   void set(String key, String? value);
   bool hasKey(String key);
+  void clear();
 }
 
 class PreferenceProvider implements StorageProvider {
@@ -29,5 +30,10 @@ class PreferenceProvider implements StorageProvider {
   @override
   bool hasKey(String key) {
     return _prefs.containsKey(key);
+  }
+
+  @override
+  void clear() {
+    _prefs.clear();
   }
 }

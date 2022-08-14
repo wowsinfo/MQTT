@@ -23,7 +23,7 @@
   "server_eu": "欧服",
   "server_na": "北美服",
   "server_ru": "俄服",
-  "error_invalid_replay_path": "无效的Replay文件夹路径",
+  "error_invalid_replay_path": "请选择Replay文件夹",
   "error_no_replay_in_path": "路径应该包含“replays”",
   "error_invalid_server": "请选择游戏服务器",
   "error_invalid_qr_code": "无效的QR码",

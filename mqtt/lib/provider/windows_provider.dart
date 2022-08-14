@@ -21,6 +21,9 @@ class WindowsProvider with ChangeNotifier {
   bool get hasValidPath => AppRepository.instance.replayFolder != null;
   bool get hasValidServer => AppRepository.instance.gameServer != null;
 
+  bool _canReload = true;
+  bool get canReload => _canReload;
+
   @override
   void dispose() {
     _fileService = null;
@@ -29,17 +32,25 @@ class WindowsProvider with ChangeNotifier {
     super.dispose();
   }
 
-  void _setup() async {
+  Future<void> _setup() async {
     if (hasValidPath && hasValidServer) {
       if (_publishService != null) {
         await _publishService?.stop();
         _publishService = null;
+        _logger.fine('Stopped previous publish service');
       }
 
       _fileService = FileService(path: AppRepository.instance.replayFolder);
       _publishService = PublishService(fileService: _fileService);
       _logger.info('Setting up services');
       _publishService?.start();
+
+      _canReload = false;
+      // enabled it after 10s
+      Future.delayed(const Duration(seconds: 10), () {
+        _canReload = true;
+        notifyListeners();
+      });
     }
   }
 
@@ -53,8 +64,9 @@ class WindowsProvider with ChangeNotifier {
     launchUrlString('file://$folder');
   }
 
-  void reload() {
-    _setup(); // again
+  Future<void> reload() async {
+    await _setup();
+    notifyListeners();
   }
 
   void showQRCode(BuildContext context) {

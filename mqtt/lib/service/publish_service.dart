@@ -76,6 +76,7 @@ class PublishService {
     _timer?.cancel();
     _timer = null;
 
+    if (_client == null) return;
     final success = await _client?.disconnect();
     assert(success == true, 'mqtt client failed to disconnect');
     _client = null;
