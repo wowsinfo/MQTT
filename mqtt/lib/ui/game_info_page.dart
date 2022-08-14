@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mqtt/foundation/app.dart';
+import 'package:mqtt/model/game_player_info.dart';
 import 'package:mqtt/provider/game_info_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -52,7 +53,9 @@ class _GameInfoPageState extends State<GameInfoPage> {
           );
         }
 
-        return renderGameInfo();
+        return SingleChildScrollView(
+          child: renderGameInfo(),
+        );
       },
     );
   }
@@ -60,10 +63,27 @@ class _GameInfoPageState extends State<GameInfoPage> {
   Widget renderGameInfo() {
     return Consumer<GameInfoProvider>(
       builder: (context, value, child) {
-        return Column(
-          children: const [],
+        return Row(
+          children: [
+            renderTeam(true, value.team1),
+            const VerticalDivider(),
+            renderTeam(false, value.team2),
+          ],
         );
       },
+    );
+  }
+
+  Widget renderTeam(bool myTeam, List<GamePlayerInfo> team) {
+    return Expanded(
+      child: Wrap(
+        children: team.map((player) {
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(player.userName ?? '-'),
+          );
+        }).toList(),
+      ),
     );
   }
 }

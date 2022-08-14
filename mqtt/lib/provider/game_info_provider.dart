@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:mqtt/model/game_map_info.dart';
@@ -17,7 +15,8 @@ class GameInfoProvider with ChangeNotifier {
   GameInfoProvider() {
     if (hasUserUUID) {
       _logger.fine('has user uuid');
-      _subscribe();
+      _test();
+      // _subscribe();
     }
   }
 
@@ -61,6 +60,16 @@ class GameInfoProvider with ChangeNotifier {
         ),
       ),
     );
+  }
+
+  void _test() {
+    _subscribed = true;
+    _hasData = true;
+    _team1.add(testData1);
+    _team1.add(testData2);
+    _team2.add(testData2);
+    _team2.add(testData1);
+    notifyListeners();
   }
 
   void _subscribe() {

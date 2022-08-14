@@ -1,5 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:equatable/equatable.dart';
+
+final testData1 = GamePlayerInfo.fromJson(jsonDecode(
+    '{"myTeam":false,"hide":true,"accountId":-1,"userName":":Zavoyko:","clanTag":null,"clanColor":null,"pvp":null,"ship":null}'));
+final testData2 = GamePlayerInfo.fromJson(jsonDecode(
+    '{"myTeam":true,"hide":false,"accountId":2011774448,"userName":"HenryQuan","clanTag":"ICBC","clanColor":"#cc9966","pvp":{"pr":1353,"battles":4966,"wins":53.99,"damage":42598,"xp":1083,"kd":1.42,"hit":28.38,"frags":0.79},"ship":{"pr":2003,"battles":5,"wins":20.0,"damage":30932,"xp":809,"kd":1.67,"hit":37.21,"frags":1.0}}'));
 
 @immutable
 class GamePlayerInfo extends Equatable {
@@ -22,6 +29,8 @@ class GamePlayerInfo extends Equatable {
   final String? clanColor;
   final Pvp? pvp;
   final Pvp? ship;
+
+  String? get formattedClanTag => clanTag == null ? null : '[$clanTag]';
 
   factory GamePlayerInfo.fromJson(Map<String, dynamic> json) => GamePlayerInfo(
         myTeam: json['myTeam'],
