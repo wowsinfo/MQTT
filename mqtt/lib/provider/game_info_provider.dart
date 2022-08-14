@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
+import 'package:mqtt/model/game_data_manager.dart';
 import 'package:mqtt/model/game_map_info.dart';
 import 'package:mqtt/model/game_player_info.dart';
 import 'package:mqtt/repository/app_repository.dart';
@@ -27,22 +28,18 @@ class GameInfoProvider with ChangeNotifier {
     super.dispose();
   }
 
+  final _dataManager = GameDataManager();
+
   bool get hasUserUUID => AppRepository.instance.hasUserUUID;
   bool _subscribed = false;
 
-  bool _hasData = false;
-  bool get hasData => _hasData;
-
-  GameMapInfo? _mapInfo;
-  int _counter = 0;
+  bool get hasData => _dataManager.hasData;
 
   /// The user's team
-  List<GamePlayerInfo> get team1 => _team1.toList();
-  final Set<GamePlayerInfo> _team1 = {};
+  List<GamePlayerInfo> get team1 => _dataManager.team1;
 
   /// The other team
-  List<GamePlayerInfo> get team2 => _team2.toList();
-  final Set<GamePlayerInfo> _team2 = {};
+  List<GamePlayerInfo> get team2 => _dataManager.team2;
 
   void scanQRCode(BuildContext context) {
     Navigator.of(context).push(
@@ -64,11 +61,7 @@ class GameInfoProvider with ChangeNotifier {
 
   void _test() {
     _subscribed = true;
-    _hasData = true;
-    _team1.add(testData1);
-    _team1.add(testData2);
-    _team2.add(testData2);
-    _team2.add(testData1);
+    _dataManager.test();
     notifyListeners();
   }
 
@@ -82,54 +75,7 @@ class GameInfoProvider with ChangeNotifier {
   }
 
   void _onMessage(String message) {
-    _logger.info('Received message: $message');
-    final json = jsonDecode(message) as Map<String, dynamic>;
-    if (json.containsKey('userName')) {
-      final userCount = _mapInfo?.userCount;
-      if (userCount == null || userCount == 0 || _counter == 0) {
-        assert(false, 'Game information is unknown, ignoring...');
-        return;
-      }
-
-      final playerInfo = GamePlayerInfo.fromJson(json);
-      final myTeam = playerInfo.myTeam;
-      if (myTeam == null) {
-        assert(false, 'My team is unknown, ignoring...');
-        return;
-      }
-
-      if (myTeam) {
-        _team1.add(playerInfo);
-      } else {
-        _team2.add(playerInfo);
-      }
-      _counter += 1;
-
-      if (userCount == _counter) {
-        // all players have been received
-        _hasData = true;
-        notifyListeners();
-      }
-    } else {
-      final mapInfo = GameMapInfo.fromJson(json);
-      if (_mapInfo == mapInfo) {
-        _logger.info('Same map info, ignoring...');
-        return;
-      }
-
-      _mapInfo = mapInfo;
-      final userCount = mapInfo.userCount;
-      if (userCount == null || userCount == 0) {
-        assert(false, 'userCount is null or 0');
-        return;
-      }
-
-      // reset last game info
-      _counter = userCount;
-      _team1.clear();
-      _team2.clear();
-      _hasData = false;
-      notifyListeners();
-    }
+    final success = _dataManager.update(message);
+    if (success) notifyListeners();
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mqtt/foundation/mqtt_client.dart';
+import 'package:mqtt/model/game_data_manager.dart';
 
 import 'test_data_loader.dart';
 
@@ -10,9 +11,18 @@ void main() {
       userID: 'henryquan',
     );
     expect(await listener.initialise(), true);
+    final manager = GameDataManager();
+    int counter = 0;
     await listener.receiveBattleData((received) {
       expect(received, isNotEmpty);
       print('received: $received');
+      final success = manager.update(received);
+      if (success) counter += 1;
+
+      if (counter == 16) {
+        expect(manager.hasData, true);
+        expect(manager.totalPlayers, 16);
+      }
     });
 
     final client = WWSClient(

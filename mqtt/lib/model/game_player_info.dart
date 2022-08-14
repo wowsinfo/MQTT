@@ -14,6 +14,7 @@ class GamePlayerInfo extends Equatable {
     this.myTeam,
     this.hide,
     this.accountId,
+    this.shipId,
     this.userName,
     this.clanTag,
     this.clanColor,
@@ -24,6 +25,7 @@ class GamePlayerInfo extends Equatable {
   final bool? myTeam;
   final bool? hide;
   final int? accountId;
+  final int? shipId;
   final String? userName;
   final String? clanTag;
   final String? clanColor;
@@ -36,6 +38,7 @@ class GamePlayerInfo extends Equatable {
         myTeam: json['myTeam'],
         hide: json['hide'],
         accountId: json['accountId'],
+        shipId: json['shipId'],
         userName: json['userName'],
         clanTag: json['clanTag'],
         clanColor: json['clanColor'],
