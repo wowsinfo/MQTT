@@ -35,15 +35,9 @@ class _WindowsPageState extends State<WindowsPage> {
                 label: const Text('Reload'),
               ),
               TextButton.icon(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const QRScannerPage(),
-                    ),
-                  );
-                },
+                onPressed: () => _provider.showQRCode(context),
                 icon: const Icon(Icons.qr_code),
-                label: const Text('Scan QR'),
+                label: const Text('QR'),
               ),
             ],
           ),

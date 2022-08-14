@@ -3,7 +3,9 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:mqtt/foundation/app.dart';
 
 class QRScannerPage extends StatelessWidget {
-  const QRScannerPage({Key? key}) : super(key: key);
+  const QRScannerPage({Key? key, this.onQRCodeScanned}) : super(key: key);
+
+  final void Function(String)? onQRCodeScanned;
 
   @override
   Widget build(BuildContext context) {
@@ -18,13 +20,8 @@ class QRScannerPage extends StatelessWidget {
               debugPrint('Failed to scan Barcode');
             } else {
               final String code = barcode.rawValue!;
-              // show a snackbar with the scanned code
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(code),
-                ),
-              );
-              debugPrint('Barcode found! $code');
+              onQRCodeScanned?.call(code);
+              Navigator.of(context).pop();
             }
           },
         ),
