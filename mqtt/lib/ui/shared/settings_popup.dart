@@ -1,5 +1,6 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:mqtt/localisation/localisation.dart';
 import 'package:mqtt/repository/app_repository.dart';
 import 'package:mqtt/ui/shared/alert.dart';
 import 'package:mqtt/ui/shared/dropdown_list_tile.dart';
@@ -32,7 +33,7 @@ class _SettingsPopupState extends State<_SettingsPopup> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Settings'),
+      title: Text(Localisation.of(context).settings),
       contentPadding: const EdgeInsets.all(8),
       content: SizedBox(
         width: 500,
@@ -40,8 +41,8 @@ class _SettingsPopupState extends State<_SettingsPopup> {
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
-              title: const Text('Game replay folder'),
-              subtitle: Text(_path ?? 'Click to pick folder'),
+              title: Text(Localisation.of(context).game_replay_folder),
+              subtitle: Text(_path ?? Localisation.of(context).pick_folder),
               onTap: () {
                 FilePicker.platform
                     .getDirectoryPath(initialDirectory: _path)
@@ -55,7 +56,7 @@ class _SettingsPopupState extends State<_SettingsPopup> {
                   if (!path.contains('replays')) {
                     showErrorAlert(
                       context,
-                      message: 'The path should contain "replays"',
+                      message: Localisation.of(context).error_no_replay_in_path,
                     );
                     return;
                   }
@@ -68,29 +69,29 @@ class _SettingsPopupState extends State<_SettingsPopup> {
               },
             ),
             DropdownListTile<String?>(
-              options: const [
+              options: [
                 DropdownValue(
                   value: null,
-                  title: 'Please select a server',
+                  title: Localisation.of(context).server_selection,
                 ),
                 DropdownValue(
                   value: 'asia',
-                  title: 'Asia',
+                  title: Localisation.of(context).server_asia,
                 ),
                 DropdownValue(
                   value: 'eu',
-                  title: 'Europe',
+                  title: Localisation.of(context).server_eu,
                 ),
                 DropdownValue(
                   value: 'na',
-                  title: 'North America',
+                  title: Localisation.of(context).server_na,
                 ),
                 DropdownValue(
                   value: 'ru',
-                  title: 'Russia',
+                  title: Localisation.of(context).server_ru,
                 ),
               ],
-              title: const Text('Game server'),
+              title: Text(Localisation.of(context).game_server),
               value: _server,
               onChanged: (String? value) {
                 AppRepository.instance.gameServer = value;
@@ -104,7 +105,7 @@ class _SettingsPopupState extends State<_SettingsPopup> {
       ),
       actions: [
         TextButton(
-          child: const Text('Close'),
+          child: Text(Localisation.of(context).close),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ],

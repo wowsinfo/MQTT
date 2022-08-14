@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
+import 'package:mqtt/localisation/localisation.dart';
 import 'package:mqtt/repository/app_repository.dart';
 import 'package:mqtt/service/file_service.dart';
 import 'package:mqtt/service/publish_service.dart';
@@ -62,24 +63,25 @@ class WindowsProvider with ChangeNotifier {
     );
 
     showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: const Text('QR Code'),
-            content: SizedBox(
-              width: 200,
-              child: QrImage(
-                data: AppRepository.instance.userUUID!,
-                version: QrVersions.auto,
-              ),
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(Localisation.of(context).qr_code),
+          content: SizedBox(
+            width: 200,
+            child: QrImage(
+              data: AppRepository.instance.userUUID!,
+              version: QrVersions.auto,
             ),
-            actions: <Widget>[
-              TextButton(
-                child: const Text('Close'),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-            ],
-          );
-        });
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text(Localisation.of(context).close),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ],
+        );
+      },
+    );
   }
 }

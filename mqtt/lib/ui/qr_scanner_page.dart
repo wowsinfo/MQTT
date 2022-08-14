@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:mqtt/foundation/app.dart';
+import 'package:mqtt/localisation/localisation.dart';
 
 class QRScannerPage extends StatelessWidget {
   const QRScannerPage({Key? key, this.onQRCodeScanned}) : super(key: key);
@@ -11,7 +12,7 @@ class QRScannerPage extends StatelessWidget {
   Widget build(BuildContext context) {
     if (App.isMobile) {
       return Scaffold(
-        appBar: AppBar(title: const Text('QR Scanner')),
+        appBar: AppBar(title: Text(Localisation.of(context).qr_code_scanner)),
         body: MobileScanner(
           allowDuplicates: false,
           controller: MobileScannerController(),
@@ -29,9 +30,9 @@ class QRScannerPage extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text('QR Scanner')),
-      body: const Center(
-        child: Text('Not supported on this device'),
+      appBar: AppBar(title: Text(Localisation.of(context).qr_code_scanner)),
+      body: Center(
+        child: Text(Localisation.of(context).error_not_supported),
       ),
     );
   }

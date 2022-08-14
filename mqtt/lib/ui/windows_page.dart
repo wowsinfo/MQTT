@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mqtt/localisation/localisation.dart';
 import 'package:mqtt/provider/windows_provider.dart';
 import 'package:mqtt/ui/game_info_page.dart';
 import 'package:mqtt/ui/qr_scanner_page.dart';
@@ -22,30 +23,42 @@ class _WindowsPageState extends State<WindowsPage> {
         appBar: AppBar(
           title: Row(
             children: [
-              const Text('MQTT Demo'),
+              Text(Localisation.of(context).app_title),
               const VerticalDivider(),
-              TextButton.icon(
-                onPressed: () => _provider.showReplayFolder(),
-                icon: const Icon(Icons.folder),
-                label: const Text('Replay'),
+              Tooltip(
+                message: Localisation.of(context).tooltip_replay,
+                child: TextButton.icon(
+                  onPressed: () => _provider.showReplayFolder(),
+                  icon: const Icon(Icons.folder),
+                  label: Text(Localisation.of(context).replay),
+                ),
               ),
-              TextButton.icon(
-                onPressed: () => _provider.reload(),
-                icon: const Icon(Icons.refresh),
-                label: const Text('Reload'),
+              Tooltip(
+                message: Localisation.of(context).tooltip_reload,
+                child: TextButton.icon(
+                  onPressed: () => _provider.reload(),
+                  icon: const Icon(Icons.refresh),
+                  label: Text(Localisation.of(context).reload),
+                ),
               ),
-              TextButton.icon(
-                onPressed: () => _provider.showQRCode(context),
-                icon: const Icon(Icons.qr_code),
-                label: const Text('QR'),
+              Tooltip(
+                message: Localisation.of(context).tooltip_qr,
+                child: TextButton.icon(
+                  onPressed: () => _provider.showQRCode(context),
+                  icon: const Icon(Icons.qr_code),
+                  label: Text(Localisation.of(context).qr),
+                ),
               ),
             ],
           ),
         ),
         body: renderContent(),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () => _provider.showSettings(context),
-          child: const Icon(Icons.settings),
+        floatingActionButton: Tooltip(
+          message: Localisation.of(context).settings,
+          child: FloatingActionButton(
+            onPressed: () => _provider.showSettings(context),
+            child: const Icon(Icons.settings),
+          ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       ),
@@ -54,14 +67,14 @@ class _WindowsPageState extends State<WindowsPage> {
 
   Widget renderContent() {
     if (!_provider.hasValidPath) {
-      return const Center(
-        child: Text('Please select a valid path'),
+      return Center(
+        child: Text(Localisation.of(context).error_invalid_replay_path),
       );
     }
 
     if (!_provider.hasValidServer) {
-      return const Center(
-        child: Text('Please select a server'),
+      return Center(
+        child: Text(Localisation.of(context).error_invalid_server),
       );
     }
 

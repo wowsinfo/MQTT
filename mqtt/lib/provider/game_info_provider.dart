@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
+import 'package:mqtt/localisation/localisation.dart';
 import 'package:mqtt/model/game_data_manager.dart';
 import 'package:mqtt/model/game_map_info.dart';
 import 'package:mqtt/model/game_player_info.dart';
@@ -51,7 +52,10 @@ class GameInfoProvider with ChangeNotifier {
               AppRepository.instance.userUUID = code;
               _subscribe();
             } else {
-              showErrorAlert(context, message: 'Invalid QR code');
+              showErrorAlert(
+                context,
+                message: Localisation.of(context).error_invalid_qr_code,
+              );
             }
           },
         ),

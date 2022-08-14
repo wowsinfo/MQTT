@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
+import 'package:mqtt/localisation/localisation.dart';
 import 'package:mqtt/model/storage_provider.dart';
 import 'package:mqtt/repository/app_repository.dart';
 import 'package:mqtt/ui/home_page.dart';
@@ -34,6 +35,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         useMaterial3: true,
       ),
+      localizationsDelegates: Localisation.localizationsDelegates,
+      supportedLocales: Localisation.supportedLocales,
+      locale: Localisation.defaultLocale(),
       home: const HomePage(),
     );
   }

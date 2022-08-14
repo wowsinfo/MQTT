@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mqtt/localisation/localisation.dart';
 
 void showSimpleAlert(
   BuildContext context, {
@@ -12,7 +13,7 @@ void showSimpleAlert(
       content: Text(message),
       actions: <Widget>[
         ElevatedButton(
-          child: const Text('Close'),
+          child: Text(Localisation.of(context).close),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ],
@@ -27,11 +28,11 @@ void showErrorAlert(
   showDialog(
     context: context,
     builder: (context) => AlertDialog(
-      title: const Text('Error'),
+      title: Text(Localisation.of(context).error),
       content: Text(message),
       actions: <Widget>[
         ElevatedButton(
-          child: const Text('Close'),
+          child: Text(Localisation.of(context).close),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ],

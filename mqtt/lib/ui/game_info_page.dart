@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mqtt/foundation/app.dart';
+import 'package:mqtt/localisation/localisation.dart';
 import 'package:mqtt/model/game_player_info.dart';
 import 'package:mqtt/provider/game_info_provider.dart';
+import 'package:mqtt/ui/shared/icons.dart';
 import 'package:provider/provider.dart';
 
 /// Embed this widget in a container like [Scaffold] to display the game info.
@@ -25,7 +27,7 @@ class _GameInfoPageState extends State<GameInfoPage> {
     return TextButton.icon(
       onPressed: () => _provider.scanQRCode(context),
       icon: const Icon(Icons.qr_code),
-      label: const Text('Scan QR'),
+      label: Text(Localisation.of(context).scan_qr),
     );
   }
 
@@ -77,13 +79,41 @@ class _GameInfoPageState extends State<GameInfoPage> {
   Widget renderTeam(bool myTeam, List<GamePlayerInfo> team) {
     return Expanded(
       child: Wrap(
-        children: team.map((player) {
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(player.userName ?? '-'),
-          );
-        }).toList(),
+        children: team.map((player) => renderPlayer(player)).toList(),
       ),
+    );
+  }
+
+  Widget renderPlayer(GamePlayerInfo player) {
+    return SizedBox(
+      width: 200,
+      child: Column(
+        children: [
+          Text(player.userName ?? '-'),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              iconWithText(battleIcon, '${player.ship?.battles}'),
+              iconWithText(winrateIcon, '${player.ship?.wins}'),
+              iconWithText(damageIcon, '${player.ship?.damage}'),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget iconWithText(AssetImage icon, String text) {
+    return Column(
+      children: [
+        Image(
+          image: icon,
+          width: 24,
+          height: 24,
+        ),
+        const SizedBox(width: 8),
+        Text(text),
+      ],
     );
   }
 }
