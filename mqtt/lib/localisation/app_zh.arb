@@ -28,5 +28,14 @@
   "error_invalid_server": "请选择游戏服务器",
   "error_invalid_qr_code": "无效的QR码",
   "error_not_supported": "不支持本设备",
-  "error": "错误"
+  "error": "错误",
+  "rating_unknown": "未知",
+  "rating_bad": "还需努力",
+  "rating_below_average": "低于平均",
+  "rating_average": "平均水平",
+  "rating_good": "好",
+  "rating_very_good": "很好",
+  "rating_great": "非常好",
+  "rating_unicum": "大佬水平",
+  "rating_super_unicum": "神佬水平"
 }

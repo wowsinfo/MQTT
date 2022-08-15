@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mqtt/foundation/app.dart';
 import 'package:mqtt/localisation/localisation.dart';
 import 'package:mqtt/model/game_player_info.dart';
+import 'package:mqtt/model/personal_rating.dart';
 import 'package:mqtt/provider/game_info_provider.dart';
 import 'package:mqtt/repository/game_repository.dart';
 import 'package:mqtt/ui/shared/icons.dart';
@@ -21,7 +22,9 @@ class _GameInfoPageState extends State<GameInfoPage> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
-        value: _provider, child: renderContent());
+      value: _provider,
+      child: renderContent(),
+    );
   }
 
   TextButton scanQRButton() {
@@ -92,6 +95,11 @@ class _GameInfoPageState extends State<GameInfoPage> {
     final shipIndex = shipInfo?.index;
     final currLang = Localizations.localeOf(context).languageCode;
     final shipName = GameRepository.instance.getShipName(shipID, currLang);
+    final shipTier = shipInfo?.tierString;
+    final shipTitle = '$shipTier $shipName';
+
+    final rating = PersonalRating.rateSingle(player);
+    final ratingColour = rating.ratingColour;
     return SizedBox(
       width: 200,
       child: Column(
@@ -101,15 +109,28 @@ class _GameInfoPageState extends State<GameInfoPage> {
             scaleX: myTeam ? 1 : -1,
             child: Image.asset('assets/ships/$shipIndex.png'),
           ),
-          Text(shipName ?? '-'),
-          Text(player.userName ?? '-'),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              iconWithText(battleIcon, '${player.shipBattleString}'),
-              iconWithText(winrateIcon, '${player.shipWinString}'),
-              iconWithText(damageIcon, '${player.shipDamageString}'),
-            ],
+          Text(shipTitle),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4),
+            child: Text(
+              player.userName ?? '-',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+          ),
+          Theme(
+            data: ThemeData(primaryColor: ratingColour),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                iconWithText(battleIcon, '${player.shipBattleString}'),
+                iconWithText(winrateIcon, '${player.shipWinString}'),
+                iconWithText(damageIcon, '${player.shipDamageString}'),
+              ],
+            ),
+          ),
+          Container(
+            height: 16,
+            color: ratingColour,
           )
         ],
       ),
@@ -123,8 +144,8 @@ class _GameInfoPageState extends State<GameInfoPage> {
           image: icon,
           width: 24,
           height: 24,
+          color: Theme.of(context).primaryColor,
         ),
-        const SizedBox(width: 8),
         Text(text),
       ],
     );

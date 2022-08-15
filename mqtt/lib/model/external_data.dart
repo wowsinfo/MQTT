@@ -34,6 +34,21 @@ class PrInfo {
   }
 }
 
+const List<String> _tiers = [
+  'I',
+  'II',
+  'III',
+  'IV',
+  'V',
+  'VI',
+  'VII',
+  'VIII',
+  'IX',
+  'X',
+  '★',
+  '★',
+];
+
 @immutable
 class PRShipInfo {
   const PRShipInfo({
@@ -62,6 +77,8 @@ class ShipIndexInfo {
 
   final String index;
   final int tier;
+
+  String get tierString => _tiers[tier - 1];
 
   factory ShipIndexInfo.fromJson(Map<String, dynamic> json) => ShipIndexInfo(
         index: json['index'],

@@ -12,8 +12,6 @@ class GameRepository {
   final _logger = Logger('GameRepository');
 
   late final PrInfo _personalRating;
-  PrInfo get personalRating => _personalRating;
-
   late final Map<String, ShipIndexInfo> _shipIndex;
   late final Map<String, Map<String, String>> _shipNames;
 
@@ -58,5 +56,9 @@ class GameRepository {
 
   String? getShipName(String? shipId, String language) {
     return _shipNames[language]?[shipId];
+  }
+
+  PRShipInfo? getPersonalRating(String? shipId) {
+    return _personalRating.data[shipId];
   }
 }
