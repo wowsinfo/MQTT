@@ -4,6 +4,7 @@ import 'package:logging/logging.dart';
 import 'package:mqtt/localisation/localisation.dart';
 import 'package:mqtt/model/storage_provider.dart';
 import 'package:mqtt/repository/app_repository.dart';
+import 'package:mqtt/repository/game_repository.dart';
 import 'package:mqtt/ui/home_page.dart';
 
 void main() async {
@@ -20,6 +21,7 @@ void main() async {
   final pref = PreferenceProvider();
   await pref.initialise();
   AppRepository.instance.inject(pref);
+  await GameRepository.instance.initialise();
 
   runApp(const MyApp());
 }
