@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:mqtt/foundation/app.dart';
 import 'package:mqtt/localisation/localisation.dart';
@@ -69,13 +71,17 @@ class _GameInfoPageState extends State<GameInfoPage> {
   Widget renderGameInfo() {
     return Consumer<GameInfoProvider>(
       builder: (context, value, child) {
-        return Row(
-          children: [
-            renderTeam(true, value.team1),
-            const VerticalDivider(),
-            renderTeam(false, value.team2),
-          ],
-        );
+        if (value.hasEnemyTeam) {
+          return Row(
+            children: [
+              renderTeam(true, value.team1),
+              const VerticalDivider(),
+              renderTeam(false, value.team2),
+            ],
+          );
+        } else {
+          return renderTeam(true, value.team1);
+        }
       },
     );
   }
@@ -83,6 +89,7 @@ class _GameInfoPageState extends State<GameInfoPage> {
   Widget renderTeam(bool myTeam, List<GamePlayerInfo> team) {
     return Expanded(
       child: Wrap(
+        alignment: WrapAlignment.center,
         children: team.map((player) => renderPlayer(myTeam, player)).toList(),
       ),
     );
@@ -100,8 +107,14 @@ class _GameInfoPageState extends State<GameInfoPage> {
 
     final rating = PersonalRating.rateSingle(player);
     final ratingColour = rating.ratingColour;
+    final availableWidth = MediaQuery.of(context).size.width / 2 - 8;
+    print('available width: $availableWidth');
+    final maxItemPerRow = max(1, (availableWidth / 200).floor());
+    print(maxItemPerRow);
+    final itemWidth = availableWidth / maxItemPerRow;
+    print(itemWidth);
     return SizedBox(
-      width: 200,
+      width: itemWidth,
       child: Column(
         children: [
           // mirror this image based on myTeam
@@ -113,8 +126,10 @@ class _GameInfoPageState extends State<GameInfoPage> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 4),
             child: Text(
-              player.userName ?? '-',
+              player.fullPlayerName ?? '-',
               style: Theme.of(context).textTheme.titleMedium,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
           Theme(

@@ -38,6 +38,7 @@ class GameInfoProvider with ChangeNotifier {
 
   /// The other team
   List<GamePlayerInfo> get team2 => _dataManager.team2;
+  bool get hasEnemyTeam => _dataManager.hasEnemyTeam;
 
   void scanQRCode(BuildContext context) {
     Navigator.of(context).push(

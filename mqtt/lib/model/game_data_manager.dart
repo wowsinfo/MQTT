@@ -14,13 +14,14 @@ class GameDataManager {
 
   /// The user's team
   List<GamePlayerInfo> get team1 => _team1.toList();
-  final Set<GamePlayerInfo> _team1 = {};
+  Set<GamePlayerInfo> _team1 = {};
 
   /// The other team
   List<GamePlayerInfo> get team2 => _team2.toList();
-  final Set<GamePlayerInfo> _team2 = {};
+  Set<GamePlayerInfo> _team2 = {};
 
   int get totalPlayers => team1.length + team2.length;
+  bool get hasEnemyTeam => team2.isNotEmpty;
 
   bool update(String message) {
     _logger.fine('Updating game data: $message');
@@ -48,6 +49,7 @@ class GameDataManager {
 
       if (userCount == _counter) {
         // all players have been received
+        _sortTeams();
         _hasData = true;
       }
     } else {
@@ -69,6 +71,13 @@ class GameDataManager {
     }
 
     return true;
+  }
+
+  void _sortTeams() {
+    final sortedTeam1 = _team1.toList()..sort((a, b) => a.compare(b));
+    _team1 = sortedTeam1.toSet();
+    final sortedTeam2 = _team2.toList()..sort((a, b) => a.compare(b));
+    _team2 = sortedTeam2.toSet();
   }
 
   void test() {

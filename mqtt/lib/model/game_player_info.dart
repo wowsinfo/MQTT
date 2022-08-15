@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:equatable/equatable.dart';
@@ -44,6 +45,10 @@ class GamePlayerInfo extends Equatable implements Ratable {
 
   String? get formattedClanTag => clanTag == null ? null : '[$clanTag]';
 
+  // set a max length for the user name
+  String? get fullPlayerName =>
+      [formattedClanTag, userName].where((e) => e != null).join(' ');
+
   @override
   double? get averageDamage => ship?.damage?.toDouble();
 
@@ -59,10 +64,33 @@ class GamePlayerInfo extends Equatable implements Ratable {
   @override
   double? get totalBattle => ship?.battles?.toDouble();
 
+  double? get ap {
+    final pr = ship?.pr?.toDouble();
+    final battles = ship?.battles?.toDouble();
+    if (battles == null || battles == 0 || pr == null) return pr;
+
+    // use log(e, log(4, battles))
+    final modifier = max(1, log(log(battles) / log(3)));
+    return pr * modifier;
+  }
+
   bool get shouldDisplay {
     if (hide == null || hide!) return false;
     if (ship?.battles == 0) return false;
     return true;
+  }
+
+  int compare(GamePlayerInfo other) {
+    final myAp = ap;
+    final otherAp = other.ap;
+    if (myAp == null) return 1;
+    if (otherAp == null) return -1;
+    return _validate(otherAp - myAp);
+  }
+
+  int _validate(num value) {
+    if (value.isInfinite || value.isNaN) return -1;
+    return value.toInt();
   }
 
   factory GamePlayerInfo.fromJson(Map<String, dynamic> json) => GamePlayerInfo(
