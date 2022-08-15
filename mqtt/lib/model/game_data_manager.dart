@@ -27,7 +27,7 @@ class GameDataManager {
     final json = jsonDecode(message) as Map<String, dynamic>;
     if (json.containsKey('userName')) {
       final userCount = _mapInfo?.userCount;
-      if (userCount == null || userCount == 0 || _counter == 0) {
+      if (userCount == null || userCount == 0) {
         _logger.info(false, 'Game information is unknown, ignoring...');
         return false;
       }

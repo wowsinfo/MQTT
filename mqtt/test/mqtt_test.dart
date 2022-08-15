@@ -17,9 +17,14 @@ void main() {
       expect(received, isNotEmpty);
       print('received: $received');
       final success = manager.update(received);
-      if (success) counter += 1;
+      if (success) {
+        counter += 1;
+      } else {
+        print('Failed to update game data');
+      }
 
-      if (counter == 16) {
+      // 16 + 1 (map info)
+      if (counter == 17) {
         expect(manager.hasData, true);
         expect(manager.totalPlayers, 16);
       }
@@ -37,7 +42,8 @@ void main() {
     expect(await client.pushBattleInfo(testData), true);
     // delay 20s for response
     await Future.delayed(const Duration(seconds: 20));
-    expect(counter, greaterThan(0));
+    expect(counter, 17); // 16 + 1 (map info)
+    print('counter: $counter, total players: ${manager.totalPlayers}');
     expect(manager.hasData, true);
     expect(await client.disconnect(), true);
     expect(await listener.disconnect(), true);
