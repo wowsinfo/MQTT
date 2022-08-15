@@ -14,8 +14,8 @@ class GameInfoProvider with ChangeNotifier {
   GameInfoProvider() {
     if (hasUserUUID) {
       _logger.fine('has user uuid');
-      _test();
-      // _subscribe();
+      // _test();
+      _subscribe();
     }
   }
 

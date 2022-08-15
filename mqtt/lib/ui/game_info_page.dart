@@ -122,9 +122,21 @@ class _GameInfoPageState extends State<GameInfoPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                iconWithText(battleIcon, '${player.shipBattleString}'),
-                iconWithText(winrateIcon, '${player.shipWinString}'),
-                iconWithText(damageIcon, '${player.shipDamageString}'),
+                iconWithText(
+                  battleIcon,
+                  '${player.shipBattleString}',
+                  ratingColour,
+                ),
+                iconWithText(
+                  winrateIcon,
+                  '${player.shipWinString}',
+                  ratingColour,
+                ),
+                iconWithText(
+                  damageIcon,
+                  '${player.shipDamageString}',
+                  ratingColour,
+                ),
               ],
             ),
           ),
@@ -137,14 +149,14 @@ class _GameInfoPageState extends State<GameInfoPage> {
     );
   }
 
-  Widget iconWithText(AssetImage icon, String text) {
+  Widget iconWithText(AssetImage icon, String text, Color color) {
     return Column(
       children: [
         Image(
           image: icon,
           width: 24,
           height: 24,
-          color: Theme.of(context).primaryColor,
+          color: color,
         ),
         Text(text),
       ],

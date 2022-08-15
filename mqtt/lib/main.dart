@@ -37,6 +37,10 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         useMaterial3: true,
       ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        useMaterial3: true,
+      ),
       localizationsDelegates: Localisation.localizationsDelegates,
       supportedLocales: Localisation.supportedLocales,
       locale: Localisation.defaultLocale(),
