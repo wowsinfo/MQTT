@@ -52,11 +52,11 @@ class GameRepository {
     _logger.info('GameRepository initialised');
   }
 
-  ShipIndexInfo? getShipInfo(String shipId) {
+  ShipIndexInfo? getShipInfo(String? shipId) {
     return _shipIndex[shipId];
   }
 
-  String? getShipName(String shipId, String language) {
-    return _shipNames[shipId]?[language];
+  String? getShipName(String? shipId, String language) {
+    return _shipNames[language]?[shipId];
   }
 }

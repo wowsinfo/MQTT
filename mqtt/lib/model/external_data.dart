@@ -56,17 +56,14 @@ class PRShipInfo {
 @immutable
 class ShipIndexInfo {
   const ShipIndexInfo({
-    required this.name,
     required this.index,
     required this.tier,
   });
 
-  final String name;
   final String index;
   final int tier;
 
   factory ShipIndexInfo.fromJson(Map<String, dynamic> json) => ShipIndexInfo(
-        name: json['name'],
         index: json['index'],
         tier: json['tier'],
       );

@@ -3,6 +3,7 @@ import 'package:mqtt/foundation/app.dart';
 import 'package:mqtt/localisation/localisation.dart';
 import 'package:mqtt/model/game_player_info.dart';
 import 'package:mqtt/provider/game_info_provider.dart';
+import 'package:mqtt/repository/game_repository.dart';
 import 'package:mqtt/ui/shared/icons.dart';
 import 'package:provider/provider.dart';
 
@@ -79,16 +80,28 @@ class _GameInfoPageState extends State<GameInfoPage> {
   Widget renderTeam(bool myTeam, List<GamePlayerInfo> team) {
     return Expanded(
       child: Wrap(
-        children: team.map((player) => renderPlayer(player)).toList(),
+        children: team.map((player) => renderPlayer(myTeam, player)).toList(),
       ),
     );
   }
 
-  Widget renderPlayer(GamePlayerInfo player) {
+  Widget renderPlayer(bool myTeam, GamePlayerInfo player) {
+    final shipID = player.shipId.toString();
+    final shipInfo = GameRepository.instance.getShipInfo(shipID);
+
+    final shipIndex = shipInfo?.index;
+    final currLang = Localizations.localeOf(context).languageCode;
+    final shipName = GameRepository.instance.getShipName(shipID, currLang);
     return SizedBox(
       width: 200,
       child: Column(
         children: [
+          // mirror this image based on myTeam
+          Transform.scale(
+            scaleX: myTeam ? 1 : -1,
+            child: Image.asset('assets/ships/$shipIndex.png'),
+          ),
+          Text(shipName ?? '-'),
           Text(player.userName ?? '-'),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
