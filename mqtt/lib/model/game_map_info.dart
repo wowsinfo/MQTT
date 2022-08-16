@@ -15,7 +15,7 @@ class GameMapInfo extends Equatable {
   final int? mapId;
   final int? userCount;
   final String? gameType;
-  final String? dateTime;
+  final num? dateTime;
 
   factory GameMapInfo.fromJson(Map<String, dynamic> json) => GameMapInfo(
         matchGroup: json['matchGroup'],

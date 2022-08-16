@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mqtt/foundation/app.dart';
 import 'package:mqtt/localisation/localisation.dart';
 import 'package:mqtt/model/game_player_info.dart';
+import 'package:mqtt/model/game_team_info.dart';
 import 'package:mqtt/model/personal_rating.dart';
 import 'package:mqtt/provider/game_info_provider.dart';
 import 'package:mqtt/repository/game_repository.dart';
@@ -74,23 +75,63 @@ class _GameInfoPageState extends State<GameInfoPage> {
         if (value.hasEnemyTeam) {
           return Row(
             children: [
-              renderTeam(true, value.team1),
+              renderTeam(true, value.team1, value.team1Info),
               const VerticalDivider(),
-              renderTeam(false, value.team2),
+              renderTeam(false, value.team2, value.team2Info),
             ],
           );
         } else {
-          return renderTeam(true, value.team1);
+          return Center(
+            child: renderTeam(true, value.team1, value.team1Info),
+          );
         }
       },
     );
   }
 
-  Widget renderTeam(bool myTeam, List<GamePlayerInfo> team) {
+  Widget renderTeam(
+    bool myTeam,
+    List<GamePlayerInfo> team,
+    GameTeamInfo? info,
+  ) {
+    final rating = info?.rating ?? ShipRatingHolder.unknown();
+    final ratingColour = rating.ratingColour;
     return Expanded(
-      child: Wrap(
-        alignment: WrapAlignment.center,
-        children: team.map((player) => renderPlayer(myTeam, player)).toList(),
+      child: Column(
+        children: [
+          // fill width
+          FractionallySizedBox(
+            widthFactor: 1,
+            child: ElevatedButton(
+              onPressed: () {},
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(ratingColour),
+                // no round corner
+                shape: MaterialStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+              ),
+              child: Text(
+                rating.commentWithRating(context) ?? '-',
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
+          renderSimpleInfo(
+            '${info?.battleString}',
+            '${info?.winRateString}',
+            '${info?.damageString}',
+            ratingColour,
+          ),
+          const Divider(),
+          Wrap(
+            alignment: WrapAlignment.center,
+            children:
+                team.map((player) => renderPlayer(myTeam, player)).toList(),
+          ),
+        ],
       ),
     );
   }
@@ -132,28 +173,11 @@ class _GameInfoPageState extends State<GameInfoPage> {
               overflow: TextOverflow.ellipsis,
             ),
           ),
-          Theme(
-            data: ThemeData(primaryColor: ratingColour),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                iconWithText(
-                  battleIcon,
-                  '${player.shipBattleString}',
-                  ratingColour,
-                ),
-                iconWithText(
-                  winrateIcon,
-                  '${player.shipWinString}',
-                  ratingColour,
-                ),
-                iconWithText(
-                  damageIcon,
-                  '${player.shipDamageString}',
-                  ratingColour,
-                ),
-              ],
-            ),
+          renderSimpleInfo(
+            '${player.shipBattleString}',
+            '${player.shipWinString}',
+            '${player.shipDamageString}',
+            ratingColour,
           ),
           Container(
             height: 16,
@@ -161,6 +185,34 @@ class _GameInfoPageState extends State<GameInfoPage> {
           )
         ],
       ),
+    );
+  }
+
+  Widget renderSimpleInfo(
+    String battle,
+    String win,
+    String damage,
+    Color ratingColour,
+  ) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        iconWithText(
+          battleIcon,
+          battle,
+          ratingColour,
+        ),
+        iconWithText(
+          winrateIcon,
+          win,
+          ratingColour,
+        ),
+        iconWithText(
+          damageIcon,
+          damage,
+          ratingColour,
+        ),
+      ],
     );
   }
 

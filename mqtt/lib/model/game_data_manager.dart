@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:logging/logging.dart';
 import 'package:mqtt/model/game_map_info.dart';
 import 'package:mqtt/model/game_player_info.dart';
+import 'package:mqtt/model/game_team_info.dart';
 
 class GameDataManager {
   final _logger = Logger('GameDataManager');
@@ -15,10 +16,14 @@ class GameDataManager {
   /// The user's team
   List<GamePlayerInfo> get team1 => _team1.toList();
   Set<GamePlayerInfo> _team1 = {};
+  GameTeamInfo? _team1Info;
+  GameTeamInfo? get team1Info => _team1Info;
 
   /// The other team
   List<GamePlayerInfo> get team2 => _team2.toList();
   Set<GamePlayerInfo> _team2 = {};
+  GameTeamInfo? _team2Info;
+  GameTeamInfo? get team2Info => _team2Info;
 
   int get totalPlayers => team1.length + team2.length;
   bool get hasEnemyTeam => team2.isNotEmpty;
@@ -67,6 +72,7 @@ class GameDataManager {
       }
       _team1.clear();
       _team2.clear();
+      _counter = 0;
       _hasData = false;
     }
 
@@ -78,6 +84,10 @@ class GameDataManager {
     _team1 = sortedTeam1.toSet();
     final sortedTeam2 = _team2.toList()..sort((a, b) => a.compare(b));
     _team2 = sortedTeam2.toSet();
+
+    // update team info
+    _team1Info = GameTeamInfo(players: sortedTeam1)..overall();
+    _team2Info = GameTeamInfo(players: sortedTeam2)..overall();
   }
 
   void test() {

@@ -3,6 +3,7 @@ import 'package:logging/logging.dart';
 import 'package:mqtt/localisation/localisation.dart';
 import 'package:mqtt/model/game_data_manager.dart';
 import 'package:mqtt/model/game_player_info.dart';
+import 'package:mqtt/model/game_team_info.dart';
 import 'package:mqtt/repository/app_repository.dart';
 import 'package:mqtt/service/subscribe_service.dart';
 import 'package:mqtt/ui/qr_scanner_page.dart';
@@ -35,9 +36,11 @@ class GameInfoProvider with ChangeNotifier {
 
   /// The user's team
   List<GamePlayerInfo> get team1 => _dataManager.team1;
+  GameTeamInfo? get team1Info => _dataManager.team1Info;
 
   /// The other team
   List<GamePlayerInfo> get team2 => _dataManager.team2;
+  GameTeamInfo? get team2Info => _dataManager.team2Info;
   bool get hasEnemyTeam => _dataManager.hasEnemyTeam;
 
   void scanQRCode(BuildContext context) {

@@ -22,6 +22,13 @@ mixin Calculation {
     }
     return a / b;
   }
+
+  num? multiply(num? a, num? b) {
+    if (a == null || b == null) {
+      return null;
+    }
+    return a * b;
+  }
 }
 
 enum ShipRating {
@@ -115,6 +122,13 @@ class ShipRatingHolder {
 
   String get ratingValueString => rating.toFixedString(0);
   String? localisedComment(BuildContext context) => shipRating.comment(context);
+
+  String? commentWithRating(BuildContext context) {
+    final comment = localisedComment(context);
+    if (comment == null) return null;
+    return '$comment - $ratingValueString';
+  }
+
   Color get ratingColour => shipRating.ratingColour();
 
   @override
