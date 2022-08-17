@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:mqtt/localisation/localisation.dart';
-import 'package:mqtt/model/storage_provider.dart';
+import 'package:mqtt/foundation/storage_provider.dart';
 import 'package:mqtt/repository/app_repository.dart';
 import 'package:mqtt/repository/game_repository.dart';
 import 'package:mqtt/ui/home_page.dart';

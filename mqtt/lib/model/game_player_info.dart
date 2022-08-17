@@ -5,7 +5,7 @@ import 'package:characters/characters.dart';
 import 'package:flutter/foundation.dart';
 import 'package:equatable/equatable.dart';
 import 'package:mqtt/extensions/number.dart';
-import 'package:mqtt/model/personal_rating.dart';
+import 'package:mqtt/foundation/personal_rating.dart';
 
 final testData1 = GamePlayerInfo.fromJson(jsonDecode(
     '{"myTeam":false,"hide":true,"accountId":-1,"shipId":3338548944,"userName":":Zavoyko:","clanTag":null,"clanColor":null,"pvp":null,"ship":null}'));

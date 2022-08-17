@@ -1,5 +1,5 @@
 import 'package:mqtt/foundation/app.dart';
-import 'package:mqtt/model/storage_provider.dart';
+import 'package:mqtt/foundation/storage_provider.dart';
 import 'package:uuid/uuid.dart';
 
 const String _replayFolderKey = 'replay_folder';

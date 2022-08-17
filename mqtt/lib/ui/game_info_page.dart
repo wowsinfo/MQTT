@@ -5,7 +5,7 @@ import 'package:mqtt/foundation/app.dart';
 import 'package:mqtt/localisation/localisation.dart';
 import 'package:mqtt/model/game_player_info.dart';
 import 'package:mqtt/model/game_team_info.dart';
-import 'package:mqtt/model/personal_rating.dart';
+import 'package:mqtt/foundation/personal_rating.dart';
 import 'package:mqtt/provider/game_info_provider.dart';
 import 'package:mqtt/repository/game_repository.dart';
 import 'package:mqtt/ui/shared/icons.dart';

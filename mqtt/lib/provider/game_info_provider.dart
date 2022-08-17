@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:mqtt/localisation/localisation.dart';
-import 'package:mqtt/model/game_data_manager.dart';
+import 'package:mqtt/foundation/game_data_manager.dart';
 import 'package:mqtt/model/game_player_info.dart';
 import 'package:mqtt/model/game_team_info.dart';
 import 'package:mqtt/repository/app_repository.dart';

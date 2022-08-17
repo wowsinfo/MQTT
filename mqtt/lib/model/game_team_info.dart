@@ -1,6 +1,6 @@
 import 'package:mqtt/extensions/number.dart';
 import 'package:mqtt/model/game_player_info.dart';
-import 'package:mqtt/model/personal_rating.dart';
+import 'package:mqtt/foundation/personal_rating.dart';
 
 class GameTeamInfo with Calculation {
   GameTeamInfo({

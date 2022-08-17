@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mqtt/foundation/mqtt_client.dart';
-import 'package:mqtt/model/game_data_manager.dart';
+import 'package:mqtt/foundation/game_data_manager.dart';
 
 import 'test_data_loader.dart';
 

@@ -1,4 +1,4 @@
-import 'package:mqtt/model/storage_provider.dart';
+import 'package:mqtt/foundation/storage_provider.dart';
 
 class StorageService {
   final StorageProvider _provider;
