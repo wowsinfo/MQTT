@@ -3,6 +3,7 @@ import 'package:mqtt/localisation/localisation.dart';
 import 'package:mqtt/provider/windows_provider.dart';
 import 'package:mqtt/ui/game_info_page.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class WindowsPage extends StatefulWidget {
   const WindowsPage({Key? key}) : super(key: key);
@@ -50,6 +51,12 @@ class _WindowsPageState extends State<WindowsPage> {
                   icon: const Icon(Icons.qr_code),
                   label: Text(Localisation.of(context).qr),
                 ),
+              ),
+              TextButton.icon(
+                onPressed: () =>
+                    launchUrlString('https://github.com/wowsinfo/MQTT'),
+                icon: const Icon(Icons.house),
+                label: const Text('GitHub'),
               ),
             ],
           ),
