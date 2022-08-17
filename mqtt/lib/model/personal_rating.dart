@@ -120,6 +120,14 @@ class ShipRatingHolder {
         shipRating: ShipRating.unknown,
       );
 
+  static ShipRatingHolder fromNumber(num? value) {
+    if (value == null || value == 0) return unknown();
+    return ShipRatingHolder(
+      rating: value,
+      shipRating: ShipRating.fromNumber(value),
+    );
+  }
+
   String get ratingValueString => rating.toFixedString(0);
   String? localisedComment(BuildContext context) => shipRating.comment(context);
 
@@ -213,7 +221,8 @@ class PersonalRating {
     final nFrags = max(0, (rFrags - 0.1) / (1 - 0.1));
     final nWins = max(0, (rWins - 0.7) / (1 - 0.7));
 
-    final pr = 700 * nDmg + 300 * nFrags + 150 * nWins;
+    // the minimum needs to be 1 to avoid treating this as unknown
+    final pr = max(1, 700 * nDmg + 300 * nFrags + 150 * nWins);
     return ShipRatingHolder(
       rating: pr,
       shipRating: ShipRating.fromNumber(pr),

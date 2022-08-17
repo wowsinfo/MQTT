@@ -9,6 +9,7 @@ import 'package:mqtt/model/personal_rating.dart';
 import 'package:mqtt/provider/game_info_provider.dart';
 import 'package:mqtt/repository/game_repository.dart';
 import 'package:mqtt/ui/shared/icons.dart';
+import 'package:mqtt/ui/shared/max_width_box.dart';
 import 'package:provider/provider.dart';
 
 /// Embed this widget in a container like [Scaffold] to display the game info.
@@ -115,6 +116,12 @@ class _GameInfoPageState extends State<GameInfoPage> {
               ),
               child: Text(
                 rating.commentWithRating(context) ?? '-',
+                style: TextStyle(
+                  color: ThemeData.estimateBrightnessForColor(ratingColour) ==
+                          Brightness.light
+                      ? Colors.black
+                      : Colors.white,
+                ),
               ),
             ),
           ),
@@ -154,36 +161,100 @@ class _GameInfoPageState extends State<GameInfoPage> {
     print(maxItemPerRow);
     final itemWidth = availableWidth / maxItemPerRow;
     print(itemWidth);
-    return SizedBox(
-      width: itemWidth,
-      child: Column(
-        children: [
-          // mirror this image based on myTeam
-          Transform.scale(
-            scaleX: myTeam ? 1 : -1,
-            child: Image.asset('assets/ships/$shipIndex.png'),
-          ),
-          Text(shipTitle),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4),
-            child: Text(
-              player.fullPlayerName ?? '-',
-              style: Theme.of(context).textTheme.titleMedium,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
+
+    final playerRating = ShipRatingHolder.fromNumber(player.pvp?.pr);
+    print(playerRating.rating);
+    final playerRatingColour = playerRating.ratingColour;
+    return InkWell(
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (context) => Dialog(
+            child: MaxWidthBox(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      player.fullPlayerName ?? '-',
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                  ),
+                  FractionallySizedBox(
+                    widthFactor: 1,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all(playerRatingColour),
+                        // no round corner
+                        shape: MaterialStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                        ),
+                      ),
+                      child: Text(
+                        playerRating.commentWithRating(context) ?? '-',
+                        style: TextStyle(
+                          color: ThemeData.estimateBrightnessForColor(
+                                      playerRatingColour) ==
+                                  Brightness.light
+                              ? Colors.black
+                              : Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: renderSimpleInfo(
+                      '${player.battleString}',
+                      '${player.winString}',
+                      '${player.damageString}',
+                      playerRatingColour,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
-          renderSimpleInfo(
-            '${player.shipBattleString}',
-            '${player.shipWinString}',
-            '${player.shipDamageString}',
-            ratingColour,
-          ),
-          Container(
-            height: 16,
-            color: ratingColour,
-          )
-        ],
+        );
+      },
+      child: SizedBox(
+        width: itemWidth,
+        child: Column(
+          children: [
+            // mirror this image based on myTeam
+            Transform.scale(
+              scaleX: myTeam ? 1 : -1,
+              child: Image.asset('assets/ships/$shipIndex.png'),
+            ),
+            Text(shipTitle),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4),
+              child: Text(
+                player.fullPlayerName ?? '-',
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: playerRatingColour,
+                    ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            renderSimpleInfo(
+              '${player.shipBattleString}',
+              '${player.shipWinString}',
+              '${player.shipDamageString}',
+              ratingColour,
+            ),
+            Container(
+              height: 16,
+              color: ratingColour,
+            )
+          ],
+        ),
       ),
     );
   }

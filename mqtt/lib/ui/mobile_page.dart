@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mqtt/localisation/localisation.dart';
 import 'package:mqtt/ui/game_info_page.dart';
 
 class MobilePage extends StatefulWidget {
@@ -13,7 +14,7 @@ class _MobilePageState extends State<MobilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Mobile'),
+        title: Text(Localisation.of(context).app_title),
       ),
       body: const GameInfoPage(),
     );
