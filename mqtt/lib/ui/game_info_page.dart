@@ -116,6 +116,8 @@ class _GameInfoPageState extends State<GameInfoPage> {
               ),
               child: Text(
                 rating.commentWithRating(context) ?? '-',
+                maxLines: 1,
+                softWrap: false,
                 style: TextStyle(
                   color: ThemeData.estimateBrightnessForColor(ratingColour) ==
                           Brightness.light
@@ -186,8 +188,9 @@ class _GameInfoPageState extends State<GameInfoPage> {
                     child: ElevatedButton(
                       onPressed: () {},
                       style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(playerRatingColour),
+                        backgroundColor: MaterialStateProperty.all(
+                          playerRatingColour,
+                        ),
                         // no round corner
                         shape: MaterialStateProperty.all(
                           RoundedRectangleBorder(
@@ -231,7 +234,11 @@ class _GameInfoPageState extends State<GameInfoPage> {
               scaleX: myTeam ? 1 : -1,
               child: Image.asset('assets/ships/$shipIndex.png'),
             ),
-            Text(shipTitle),
+            Text(
+              shipTitle,
+              maxLines: 1,
+              overflow: TextOverflow.fade,
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 4),
               child: Text(
