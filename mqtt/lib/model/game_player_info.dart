@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:characters/characters.dart';
 import 'package:flutter/foundation.dart';
 import 'package:equatable/equatable.dart';
 import 'package:mqtt/extensions/number.dart';
@@ -48,6 +49,10 @@ class GamePlayerInfo extends Equatable implements Ratable {
   // set a max length for the user name
   String? get fullPlayerName =>
       [formattedClanTag, userName].where((e) => e != null).join(' ');
+
+  String? get patchedFullname => Characters(fullPlayerName ?? '-')
+      .replaceAll(Characters(''), Characters('\u{200B}'))
+      .toString();
 
   @override
   double? get averageDamage => ship?.damage?.toDouble();

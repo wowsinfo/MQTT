@@ -20,7 +20,7 @@ class Localisation {
 
   /// Decide the data language based on the device language.
   static String decideLang({String? customLang}) {
-    return 'zh';
+    // return 'zh';
     final lang = customLang ?? Intl.getCurrentLocale();
     final logger = Logger('Localisation|decideLang');
     logger.info('System locale is $lang');

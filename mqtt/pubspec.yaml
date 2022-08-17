@@ -50,6 +50,7 @@ dependencies:
   uuid: 3.0.6
   url_launcher: ^6.1.5
   equatable: ^2.0.3
+  characters: ^1.2.1
 
 dev_dependencies:
   flutter_test:

@@ -235,7 +235,7 @@ class _GameInfoPageState extends State<GameInfoPage> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 4),
               child: Text(
-                player.fullPlayerName ?? '-',
+                player.patchedFullname ?? '-',
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       color: playerRatingColour,
                     ),
