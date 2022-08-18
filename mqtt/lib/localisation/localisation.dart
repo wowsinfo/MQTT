@@ -35,7 +35,7 @@ class Localisation {
 
     // if it contains '_' or '-', get the first part of the language code.
     if (langCode.contains('_') || langCode.contains('-')) {
-      final localeCode = langCode.split('_')[0];
+      final localeCode = langCode.split(r'[_\-]').first;
       if (validGameLanguages.contains(localeCode)) {
         logger.info('Using locale `$localeCode`');
         return localeCode;
