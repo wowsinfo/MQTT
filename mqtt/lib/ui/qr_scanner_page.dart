@@ -4,9 +4,10 @@ import 'package:mqtt/foundation/app.dart';
 import 'package:mqtt/localisation/localisation.dart';
 
 class QRScannerPage extends StatelessWidget {
-  const QRScannerPage({Key? key, this.onQRCodeScanned}) : super(key: key);
+  const QRScannerPage({Key? key, required this.onQRCodeScanned})
+      : super(key: key);
 
-  final void Function(String)? onQRCodeScanned;
+  final void Function(String) onQRCodeScanned;
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +22,7 @@ class QRScannerPage extends StatelessWidget {
               debugPrint('Failed to scan Barcode');
             } else {
               final String code = barcode.rawValue!;
-              onQRCodeScanned?.call(code);
-              Navigator.of(context).pop();
+              onQRCodeScanned(code);
             }
           },
         ),

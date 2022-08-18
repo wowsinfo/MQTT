@@ -25,11 +25,16 @@ class Localisation {
     final logger = Logger('Localisation|decideLang');
     logger.info('System locale is $lang');
     final langCode = lang.toLowerCase();
-    if (validGameLanguages.contains(langCode)) {
-      return langCode;
+    final langIndex = validGameLanguages.indexWhere(
+      (lang) => langCode.startsWith(lang),
+    );
+
+    if (langIndex >= 0) {
+      return validGameLanguages[langIndex];
     }
 
-    if (langCode.contains('_')) {
+    // if it contains '_' or '-', get the first part of the language code.
+    if (langCode.contains('_') || langCode.contains('-')) {
       final localeCode = langCode.split('_')[0];
       if (validGameLanguages.contains(localeCode)) {
         logger.info('Using locale `$localeCode`');

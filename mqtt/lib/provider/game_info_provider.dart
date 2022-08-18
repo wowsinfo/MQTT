@@ -52,6 +52,7 @@ class GameInfoProvider with ChangeNotifier {
               _logger.info('Scanned QR code: $code');
               AppRepository.instance.userUUID = code;
               _subscribe();
+              Navigator.of(context).pop();
             } else {
               showErrorAlert(
                 context,
