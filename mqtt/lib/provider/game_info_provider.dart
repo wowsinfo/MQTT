@@ -48,7 +48,7 @@ class GameInfoProvider with ChangeNotifier {
       MaterialPageRoute(
         builder: (context) => QRScannerPage(
           onQRCodeScanned: (code) {
-            if (code.length == 36) {
+            if (code.length <= 64) {
               _logger.info('Scanned QR code: $code');
               AppRepository.instance.userUUID = code;
               _subscribe();
