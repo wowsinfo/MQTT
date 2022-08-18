@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
@@ -19,9 +21,11 @@ class Localisation {
   }
 
   /// Decide the data language based on the device language.
+  @Deprecated('Use [localeResolutionCallback] instead.')
   static String decideLang({String? customLang}) {
     // return 'zh';
     final lang = customLang ?? Intl.getCurrentLocale();
+    print('system lang: ${Intl.defaultLocale}');
     final logger = Logger('Localisation|decideLang');
     logger.info('System locale is $lang');
     final langCode = lang.toLowerCase();
@@ -44,6 +48,19 @@ class Localisation {
 
     logger.warning('Unsupported locale $langCode, falling back to en');
     return 'en';
+  }
+
+  static Locale? localeResolutionCallback(
+    Locale? locale,
+    Iterable<Locale> supportedLocale,
+  ) {
+    for (final supported in supportedLocales) {
+      if (supported.languageCode == locale?.languageCode) {
+        return supported;
+      }
+    }
+
+    return locale;
   }
 
   /// The default locale based on the device language.

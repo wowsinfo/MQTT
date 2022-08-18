@@ -72,7 +72,10 @@ class GameInfoProvider with ChangeNotifier {
   }
 
   void _subscribe() {
-    if (_subscribed || _service != null) return;
+    if (_subscribed || _service != null) {
+      _service?.stop();
+      _service = null;
+    }
     _service ??= SubscribeService(userID: AppRepository.instance.userUUID!);
     _service?.start(_onMessage);
     _subscribed = true;

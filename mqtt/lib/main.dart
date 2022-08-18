@@ -43,7 +43,16 @@ class MyApp extends StatelessWidget {
       ),
       localizationsDelegates: Localisation.localizationsDelegates,
       supportedLocales: Localisation.supportedLocales,
-      locale: Localisation.defaultLocale(),
+      // locale: Localisation.defaultLocale(),
+      localeResolutionCallback: (locale, supportedLocales) {
+        for (final supported in supportedLocales) {
+          if (supported.languageCode == locale?.languageCode) {
+            return supported;
+          }
+        }
+
+        return locale;
+      },
       home: const HomePage(),
     );
   }
