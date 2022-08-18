@@ -11,6 +11,7 @@ import 'package:mqtt/repository/game_repository.dart';
 import 'package:mqtt/ui/shared/icons.dart';
 import 'package:mqtt/ui/shared/max_width_box.dart';
 import 'package:provider/provider.dart';
+import 'package:screenshot/screenshot.dart';
 
 /// Embed this widget in a container like [Scaffold] to display the game info.
 class GameInfoPage extends StatefulWidget {
@@ -63,8 +64,28 @@ class _GameInfoPageState extends State<GameInfoPage> {
           );
         }
 
-        return SingleChildScrollView(
-          child: renderGameInfo(),
+        return Stack(
+          children: [
+            SingleChildScrollView(
+              padding: const EdgeInsets.only(bottom: 84.0),
+              child: Screenshot(
+                controller: _provider.screenshotController,
+                child: renderGameInfo(),
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: FloatingActionButton(
+                  onPressed: () {
+                    _provider.shareBattleInfo(context);
+                  },
+                  child: const Icon(Icons.share),
+                ),
+              ),
+            ),
+          ],
         );
       },
     );

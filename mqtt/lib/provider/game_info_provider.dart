@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
+import 'package:mqtt/foundation/app.dart';
 import 'package:mqtt/localisation/localisation.dart';
 import 'package:mqtt/foundation/game_data_manager.dart';
 import 'package:mqtt/model/game_player_info.dart';
@@ -8,6 +11,10 @@ import 'package:mqtt/repository/app_repository.dart';
 import 'package:mqtt/service/subscribe_service.dart';
 import 'package:mqtt/ui/qr_scanner_page.dart';
 import 'package:mqtt/ui/shared/alert.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:screenshot/screenshot.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class GameInfoProvider with ChangeNotifier {
   final _logger = Logger('GameInfoProvider');
@@ -28,6 +35,7 @@ class GameInfoProvider with ChangeNotifier {
   }
 
   final _dataManager = GameDataManager();
+  final screenshotController = ScreenshotController();
 
   bool get hasUserUUID => AppRepository.instance.hasUserUUID;
   bool _subscribed = false;
@@ -65,6 +73,26 @@ class GameInfoProvider with ChangeNotifier {
     );
   }
 
+  void shareBattleInfo(BuildContext context) async {
+    double pixelRatio = MediaQuery.of(context).devicePixelRatio;
+
+    // this is not supported on WEB
+    final image = await screenshotController.capture(
+      delay: const Duration(milliseconds: 10),
+    );
+
+    if (image != null) {
+      final directory = await getApplicationDocumentsDirectory();
+      final imagePath = await File('${directory.path}/battle.jpg').create();
+      await imagePath.writeAsBytes(image);
+      if (App.isDesktop) {
+        await launchUrlString('file://${directory.path}');
+      } else {
+        await Share.shareFiles([imagePath.path]);
+      }
+    }
+  }
+
   void _test() {
     _subscribed = true;
     _dataManager.test();
@@ -75,6 +103,7 @@ class GameInfoProvider with ChangeNotifier {
     if (_subscribed || _service != null) {
       _service?.stop();
       _service = null;
+      _logger.info('Stopped previous subscription');
     }
     _service ??= SubscribeService(userID: AppRepository.instance.userUUID!);
     _service?.start(_onMessage);
