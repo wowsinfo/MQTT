@@ -19,6 +19,7 @@
   "game_replay_folder": "Game Replay Folder",
   "game_server": "Game Server",
   "server_selection": "Please select a server",
+  "server_cn": "China",
   "server_asia": "Asia",
   "server_eu": "Europe",
   "server_na": "North America",

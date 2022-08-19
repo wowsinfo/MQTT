@@ -75,20 +75,24 @@ class _SettingsPopupState extends State<_SettingsPopup> {
                   title: Localisation.of(context).server_selection,
                 ),
                 DropdownValue(
-                  value: 'asia',
-                  title: Localisation.of(context).server_asia,
+                  value: 'na',
+                  title: Localisation.of(context).server_na,
                 ),
                 DropdownValue(
                   value: 'eu',
                   title: Localisation.of(context).server_eu,
                 ),
                 DropdownValue(
-                  value: 'na',
-                  title: Localisation.of(context).server_na,
-                ),
-                DropdownValue(
                   value: 'ru',
                   title: Localisation.of(context).server_ru,
+                ),
+                DropdownValue(
+                  value: 'asia',
+                  title: Localisation.of(context).server_asia,
+                ),
+                DropdownValue(
+                  value: 'cn',
+                  title: Localisation.of(context).server_cn,
                 ),
               ],
               title: Text(Localisation.of(context).game_server),

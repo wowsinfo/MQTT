@@ -19,6 +19,7 @@
   "game_replay_folder": "游戏Replay文件夹",
   "game_server": "游戏服务器",
   "server_selection": "请选择服务器",
+  "server_cn": "国服",
   "server_asia": "亚服",
   "server_eu": "欧服",
   "server_na": "北美服",
